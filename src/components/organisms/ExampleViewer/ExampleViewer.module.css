@@ -1,15 +1,40 @@
 .viewer {
   display: grid;
-  gap: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  overflow: hidden;
 }
 
-.tabsRow {
-  display: grid;
-  gap: var(--space-2);
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
 }
 
 .heading {
   font-size: 1.05rem;
+  color: var(--text-h);
+}
+
+.count {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.content {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
 }
 
 .exampleBody {

@@ -1,3 +1,5 @@
+import type { ComponentType } from "react";
+
 /** Explanation length the user can toggle between on a topic page. */
 export type ExplanationMode = "short" | "long";
 
@@ -20,6 +22,8 @@ export interface Topic {
   shortExplanation: string;
   longExplanation: string;
   examples: Example[];
+  /** Optional inline diagram (SVG/React) that visually simplifies the explanation. */
+  diagram?: ComponentType;
 }
 
 /** A user-authored note attached to one example within one topic. */

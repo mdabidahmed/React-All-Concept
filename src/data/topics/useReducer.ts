@@ -1,13 +1,26 @@
 import type { Topic } from "../../types";
+import { UseReducerDiagram } from "../../components/molecules/Diagrams/UseReducerDiagram";
 
 export const useReducerTopic: Topic = {
   id: "use-reducer",
   title: "useReducer",
   category: "Core Hooks",
-  shortExplanation:
-    "useReducer manages state via a reducer function (state, action) => newState. It returns [state, dispatch]; instead of setting state directly, components dispatch action objects describing what happened.",
-  longExplanation:
-    "useReducer is an alternative to useState that centralizes 'how state changes' into a single pure function, the reducer, instead of scattering setState calls across event handlers. You call useReducer(reducer, initialState) and get back the current state plus a dispatch function. Components never mutate state directly; they dispatch a plain object (an 'action', conventionally with a type field) describing what happened, and the reducer computes the next state from the current state and that action. This is especially useful when: state is an object with several sub-values that change together, the next state depends on the previous state in a non-trivial way, or you want the update logic testable in isolation from any component (a reducer is just a function — no rendering required to test it). It also pairs naturally with useContext to build a small Redux-like store without adding a state-management library. A reducer must be pure: given the same state and action it always returns the same result, with no side effects (no fetches, no timers, no mutating the arguments) — side effects belong in an effect or event handler that dispatches an action afterward.",
+  shortExplanation: `\`useReducer\` manages state through a **reducer function** — \`(state, action) => newState\` — instead of setting values directly.
+
+- Call it as \`useReducer(reducer, initialState)\`
+- It returns a **[state, dispatch]** pair
+- Components \`dispatch\` an ==action== object describing *what happened*; the reducer decides the next state`,
+  longExplanation: `\`useReducer\` is an alternative to \`useState\` that centralizes *how state changes* into a single **pure function** — the reducer — instead of scattering \`setState\` calls across event handlers. Call \`useReducer(reducer, initialState)\` and get back the current state plus a \`dispatch\` function; components never mutate state directly, they dispatch a plain **action** object (conventionally with a \`type\` field) describing what happened, and the reducer computes the next state from the current state and that action.
+
+This shines when:
+
+- State is an object with **several sub-values that change together**
+- The next state depends on the previous state in a *non-trivial* way
+- You want the update logic testable in isolation — a reducer is just a function, no rendering required
+- You're pairing it with \`useContext\` to build a small ==Redux-like store== without adding a state-management library
+
+A reducer must stay **pure**: given the same state and action it always returns the same result, with no side effects — no fetches, no timers, no mutating the arguments. Side effects belong in an effect or event handler that dispatches an action *afterward*.`,
+  diagram: UseReducerDiagram,
   examples: [
     {
       id: "counter-reducer",

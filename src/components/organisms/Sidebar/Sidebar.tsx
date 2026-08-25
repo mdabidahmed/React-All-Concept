@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { topics, categories } from "../../../data/topics";
 import { SearchBox } from "../../molecules/SearchBox/SearchBox";
 import { TopicNavItem } from "../../molecules/TopicNavItem/TopicNavItem";
-import { ProgressBar } from "../../atoms/ProgressBar/ProgressBar";
 import { useProgress } from "../../../hooks/useProgress";
 import { useMediaQuery } from "../../../hooks/useMediaQuery";
 import styles from "./Sidebar.module.css";
@@ -10,17 +9,20 @@ import styles from "./Sidebar.module.css";
 interface SidebarProps {
   mobileOpen: boolean;
   onCloseMobile: () => void;
+  /** Desktop-only: collapses the sidebar to a hidden, zero-width state. */
+  collapsed: boolean;
 }
 
-export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
+export function Sidebar({ mobileOpen, onCloseMobile, collapsed }: SidebarProps) {
   const [query, setQuery] = useState("");
-  const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
-  const { isComplete, completedCount, total, percent } = useProgress();
+  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(() => new Set());
+  const { isComplete } = useProgress();
   const isMobileViewport = useMediaQuery("(max-width: 900px)");
   // Off-canvas on mobile: when the drawer is closed, its links sit
   // translated off-screen but would still be reachable via Tab without
   // this — inert removes the whole subtree from the tab order until open.
   const isOffscreen = isMobileViewport && !mobileOpen;
+  const isHidden = isOffscreen || (collapsed && !isMobileViewport);
 
   const grouped = useMemo(() => {
     const lowerQuery = query.trim().toLowerCase();
@@ -37,7 +39,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   }, [query]);
 
   function toggleCategory(category: string) {
-    setCollapsed((prev) => {
+    setCollapsedCategories((prev) => {
       const next = new Set(prev);
       if (next.has(category)) next.delete(category);
       else next.add(category);
@@ -49,21 +51,17 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
     <>
       {mobileOpen && <div className={styles.backdrop} onClick={onCloseMobile} />}
       <nav
-        className={[styles.sidebar, mobileOpen ? styles.mobileOpen : ""].join(" ")}
+        className={[
+          styles.sidebar,
+          mobileOpen ? styles.mobileOpen : "",
+          collapsed ? styles.collapsed : "",
+        ].join(" ")}
         aria-label="Topics"
-        inert={isOffscreen}
+        inert={isHidden}
       >
-        <div className={styles.progressBlock}>
-          <div className={styles.progressLabel}>
-            <span>Your progress</span>
-            <span className={styles.progressCount}>
-              {completedCount}/{total}
-            </span>
-          </div>
-          <ProgressBar percent={percent} label="Topics completed" />
+        <div className={styles.searchWrap}>
+          <SearchBox value={query} onChange={setQuery} />
         </div>
-
-        <SearchBox value={query} onChange={setQuery} />
 
         <div className={styles.groups}>
           {grouped.length === 0 && (
@@ -72,7 +70,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             </p>
           )}
           {grouped.map((group) => {
-            const isCollapsed = collapsed.has(group.category);
+            const isCollapsed = collapsedCategories.has(group.category);
             return (
               <div key={group.category} className={styles.group}>
                 <button
@@ -94,7 +92,6 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     <path d="M6 9l6 6 6-6" />
                   </svg>
                   <h3 className={styles.groupTitle}>{group.category}</h3>
-                  <span className={styles.groupCount}>{group.items.length}</span>
                 </button>
                 {!isCollapsed && (
                   <div className={styles.groupItems}>

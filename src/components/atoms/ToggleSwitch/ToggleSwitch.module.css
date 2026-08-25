@@ -8,19 +8,28 @@
 }
 
 .option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
   border: none;
   background: transparent;
   color: var(--text-muted);
-  padding: 6px 14px;
+  padding: 0 16px;
   border-radius: calc(var(--radius-md) - 3px);
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease, transform 150ms var(--ease-spring);
+}
+
+.option:hover {
+  color: var(--text-h);
 }
 
 .option.selected {
   background: var(--bg-elevated);
   color: var(--accent);
   box-shadow: var(--shadow-sm);
+  transform: scale(1.05);
 }

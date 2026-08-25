@@ -1,13 +1,25 @@
 import type { Topic } from "../../types";
+import { JsxIfStatementsDiagram } from "../../components/molecules/Diagrams/JsxIfStatementsDiagram";
 
 export const reactJsxIfStatementsTopic: Topic = {
   id: "react-jsx-if-statements",
   title: "React JSX If Statements",
   category: "JSX",
-  shortExplanation:
-    "Since if is a statement and JSX only accepts expressions inside {}, conditional rendering in React relies on a handful of idiomatic patterns instead: an early return from the component function, the ternary operator (cond ? a : b), the && short-circuit pattern for 'render this or render nothing', and computing an if/else result into a variable before the final return.",
-  longExplanation:
-    "React components are just functions, which means all of ordinary JavaScript's control flow is available above the return statement — it's only inside the JSX markup itself, between curly braces, that the expression-only rule kicks in. The most direct pattern is an early return: check a condition near the top of the component and return a different piece of JSX (or null) before reaching the 'main' render path, which is ideal for loading states, error states, or permission gates. Inside the markup, the ternary operator is the closest expression-level equivalent to if/else, and it composes cleanly with other JSX. When there's no 'else' case — you either render something or render nothing — the && operator is the idiomatic shorthand, because JSX treats false, null, and undefined as 'render nothing', so condition && <Component /> renders the component when condition is truthy and renders nothing when it's falsy. This is also the source of a well-known gotcha: if the left-hand side of && is a number rather than an explicit boolean (count && <Badge />), then when count is 0 the expression evaluates to 0 itself rather than false, and 0 is a valid renderable value, so React prints a stray '0' on the page instead of nothing. The fix is to force a real boolean, either with count > 0 && ... or Boolean(count) && .... The fourth pattern — computing an if/else block into a local variable before the return — is useful when the conditional logic is more than a one-liner or involves several branches, since cramming a multi-branch decision into a nested ternary quickly becomes unreadable. None of these patterns is objectively 'correct' in isolation; picking between them is mostly about matching the complexity of the condition to the readability of the syntax.",
+  shortExplanation: `Since \`if\` is a statement and JSX only accepts *expressions* inside \`{}\`, conditional rendering relies on a handful of idiomatic patterns instead.
+
+- An **early return** from the component function
+- The **ternary operator**: \`cond ? a : b\`
+- The \`&&\` short-circuit pattern for "render this or render nothing"
+- Computing an if/else result into a variable ==before the final return==`,
+  longExplanation: `React components are just functions, so all of ordinary JavaScript's control flow is available *above* the \`return\` statement — it's only inside the JSX markup itself, between curly braces, that the expression-only rule kicks in.
+
+- **Early return**: check a condition near the top of the component and return a different piece of JSX (or \`null\`) before the "main" render path — ideal for loading states, error states, or permission gates
+- **Ternary**: the closest expression-level equivalent to if/else, and it composes cleanly with other JSX
+- \`&&\` **short-circuit**: the idiomatic shorthand when there's no "else" — since JSX treats \`false\`, \`null\`, and \`undefined\` as "render nothing," \`condition && <Component />\` renders the component when truthy and nothing when falsy
+- **Variable before return**: computing an if/else block into a local variable, useful when the logic is more than a one-liner or has several branches, since a nested ternary quickly becomes unreadable
+
+If the left side of \`&&\` is a number rather than an explicit boolean (\`count && <Badge />\`), then when \`count\` is \`0\` the expression evaluates to \`0\` itself — a valid renderable value — so React prints a ==stray "0"== on the page instead of nothing; the fix is to force a real boolean, e.g. \`count > 0 && ...\`. None of these patterns is objectively "correct" in isolation — picking between them is mostly about matching the complexity of the condition to the readability of the syntax.`,
+  diagram: JsxIfStatementsDiagram,
   examples: [
     {
       id: "early-return",

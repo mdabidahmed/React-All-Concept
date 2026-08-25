@@ -56,47 +56,53 @@ export function ExampleViewer({ topic }: ExampleViewerProps) {
 
   return (
     <section className={styles.viewer} aria-label="Examples">
-      <div className={styles.tabsRow}>
+      <div className={styles.header}>
         <h2 className={styles.heading}>Examples</h2>
+        <span className={styles.count}>
+          {topic.examples.length} example{topic.examples.length === 1 ? "" : "s"}
+        </span>
+      </div>
+
+      <div className={styles.content}>
         <ExampleTabs
           examples={topic.examples}
           activeId={activeExample.id}
           onSelect={setActiveId}
           hasNote={(exampleId) => hasNote(topic.id, exampleId)}
         />
-      </div>
 
-      <div className={styles.exampleBody} key={activeExample.id}>
-        <div className={styles.summaryRow}>
-          <p className={styles.summary}>{activeExample.summary}</p>
-          <span className={styles.kbdHint}>
-            <kbd>1</kbd>-<kbd>5</kbd> or <kbd>←</kbd><kbd>→</kbd> to switch
-          </span>
+        <div className={styles.exampleBody} key={activeExample.id}>
+          <div className={styles.summaryRow}>
+            <p className={styles.summary}>{activeExample.summary}</p>
+            <span className={styles.kbdHint}>
+              <kbd>1</kbd>-<kbd>5</kbd> or <kbd>←</kbd><kbd>→</kbd> to switch
+            </span>
+          </div>
+
+          <Suspense
+            fallback={
+              <div className={styles.loading}>
+                <div className={styles.loadingToolbar}>
+                  <span className={styles.loadingBar} style={{ width: 90 }} />
+                </div>
+                <div className={styles.loadingBody}>
+                  <span className={styles.loadingBar} style={{ width: "70%" }} />
+                  <span className={styles.loadingBar} style={{ width: "45%" }} />
+                  <span className={styles.loadingBar} style={{ width: "85%" }} />
+                  <span className={styles.loadingBar} style={{ width: "30%" }} />
+                </div>
+              </div>
+            }
+          >
+            <CodeRunner key={`${topic.id}:${activeExample.id}`} code={activeExample.code} />
+          </Suspense>
+
+          <NoteEditor
+            value={getNote(topic.id, activeExample.id)}
+            updatedAt={getUpdatedAt(topic.id, activeExample.id)}
+            onSave={(text) => saveNote(topic.id, activeExample.id, text)}
+          />
         </div>
-
-        <Suspense
-          fallback={
-            <div className={styles.loading}>
-              <div className={styles.loadingToolbar}>
-                <span className={styles.loadingBar} style={{ width: 90 }} />
-              </div>
-              <div className={styles.loadingBody}>
-                <span className={styles.loadingBar} style={{ width: "70%" }} />
-                <span className={styles.loadingBar} style={{ width: "45%" }} />
-                <span className={styles.loadingBar} style={{ width: "85%" }} />
-                <span className={styles.loadingBar} style={{ width: "30%" }} />
-              </div>
-            </div>
-          }
-        >
-          <CodeRunner key={`${topic.id}:${activeExample.id}`} code={activeExample.code} />
-        </Suspense>
-
-        <NoteEditor
-          value={getNote(topic.id, activeExample.id)}
-          updatedAt={getUpdatedAt(topic.id, activeExample.id)}
-          onSave={(text) => saveNote(topic.id, activeExample.id, text)}
-        />
       </div>
     </section>
   );

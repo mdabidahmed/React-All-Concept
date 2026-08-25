@@ -4,10 +4,20 @@ export const reactGetStartedTopic: Topic = {
   id: "react-get-started",
   title: "React Get Started",
   category: "Getting Started",
-  shortExplanation:
-    "A modern React project starts from a build tool like Vite (npm create vite@latest) or a framework like Next.js or Remix, rather than hand-written script tags. Node.js and npm provide the JavaScript runtime and package manager, the bundler compiles JSX and modern syntax into browser-ready code, and npm run dev spins up a local dev server with hot module replacement while you work.",
-  longExplanation:
-    "Getting started with React today almost always means reaching for a scaffolding tool rather than writing configuration by hand. Running npm create vite@latest (or an equivalent framework CLI like create-next-app) asks a few questions — project name, whether you want TypeScript — and generates a working project: a package.json listing dependencies, an index.html entry point, a src folder with an App component, and a preconfigured bundler. Node.js is the JavaScript runtime that powers all of this tooling outside the browser, and npm (installed alongside it) both fetches the dependencies listed in package.json into node_modules and exposes the project's scripts. Two commands matter most day to day: npm run dev starts a local development server that serves your app in the browser and watches your files, pushing updates into the running page via hot module replacement (HMR) so you see changes instantly without losing component state or doing a full page reload; npm run build instead compiles and bundles everything into optimized static files in a dist folder, ready to deploy to a real web server or CDN. Under the hood, the bundler (Vite uses esbuild and Rollup) is doing essential work you don't see: it transforms JSX syntax into plain JavaScript function calls, transpiles newer language features for broader browser support, and bundles many small modules into the few files a browser actually loads efficiently. Choosing between a plain Vite app and a full framework like Next.js or Remix mostly comes down to whether you need extras those frameworks bundle in, like server-side rendering, file-based routing, or built-in data fetching; a bare Vite + React setup is the leanest way to learn the library itself, which is exactly the setup this app's own examples run in.",
+  shortExplanation: `A modern React project starts from a **build tool** like Vite (\`npm create vite@latest\`) or a framework like Next.js or Remix — not hand-written script tags.
+
+- **Node.js** and **npm** provide the JavaScript runtime and package manager
+- The *bundler* compiles JSX and modern syntax into browser-ready code
+- \`npm run dev\` spins up a local dev server with ==hot module replacement==`,
+  longExplanation: `Getting started with React today almost always means reaching for a *scaffolding tool* rather than writing configuration by hand.
+
+- \`npm create vite@latest\` (or a framework CLI like \`create-next-app\`) asks a few questions and generates a working project — \`package.json\`, an \`index.html\` entry point, a \`src\` folder with an **App** component, and a preconfigured bundler
+- **Node.js** is the JavaScript runtime that powers this tooling outside the browser
+- **npm**, installed alongside it, fetches the dependencies listed in \`package.json\` into \`node_modules\` and exposes the project's scripts
+- \`npm run dev\` starts a local dev server that watches your files and pushes updates via ==hot module replacement (HMR)==, so changes appear instantly without losing state or a full reload
+- \`npm run build\` compiles everything into optimized static files in a \`dist\` folder, ready to deploy
+
+Under the hood, the bundler (Vite uses esbuild and Rollup) transforms JSX into plain JavaScript calls, transpiles newer syntax for broader browser support, and bundles many small modules into the few files a browser loads efficiently. Choosing between a plain Vite app and a full framework like Next.js or Remix mostly comes down to whether you need extras they bundle in — server-side rendering, file-based routing, built-in data fetching; a bare Vite + React setup is the leanest way to learn the library itself, which is exactly the setup this app's own examples run in.`,
   examples: [
     {
       id: "setup-checklist",

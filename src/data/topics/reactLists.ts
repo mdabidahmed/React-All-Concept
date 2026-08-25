@@ -1,13 +1,25 @@
 import type { Topic } from "../../types";
+import { ReactListsDiagram } from "../../components/molecules/Diagrams/ReactListsDiagram";
 
 export const reactListsTopic: Topic = {
   id: "react-lists",
   title: "React Lists",
   category: "Components",
-  shortExplanation:
-    "Arrays of data are rendered by calling .map() to turn each item into an element, and every element produced this way needs a stable, unique key prop so React can match items across re-renders. Using the array index as a key works only when the list never reorders, filters, or has items inserted in the middle — otherwise it can silently attach the wrong state to the wrong row.",
-  longExplanation:
-    "Rendering a list in React is just JavaScript: call .map() on an array and return one element per item. The key prop passed to each element isn't rendered to the DOM at all — it's a hint React's reconciler uses to figure out which element in the new render corresponds to which element from the previous render, so it can preserve DOM nodes, component state, and focus for items that persist across a re-render instead of tearing everything down and rebuilding it. A key must be stable (the same item gets the same key on every render), unique among siblings, and ideally derived from the data itself, like a database id, rather than generated fresh on each render. The classic mistake is using the array index as the key, which works fine for a static list that only ever appends to the end, but breaks down the moment items can be reordered, filtered, or inserted anywhere but the end: because the index is really a position, not an identity, React sees 'item at index 0 changed its text' rather than 'a new item was inserted,' and reuses the DOM node (and any local state, like an input's typed value or a checkbox's checked state) for what is now conceptually a different item. This produces subtle, hard-to-spot bugs where uncontrolled inputs appear to keep the wrong value after the list changes shape, even though the visible labels look correct. The fix is always the same: give each item a real, stable identifier when the data is created, and use that identifier as the key instead of its position. Lists commonly need to be filtered or sorted before rendering, which is simply deriving a new array during render and mapping over that instead of the original, and lists of objects can themselves contain nested arrays, which are rendered the same way, one level deeper, each with their own keys.",
+  shortExplanation: `Arrays are rendered by calling \`.map()\` to turn each item into an element, and every element needs a stable, unique **\`key\`** prop so React can match items across re-renders.
+
+- \`key\` isn't rendered to the DOM — it's a hint for React's *reconciler*
+- Use a stable id from the data, not the array index, whenever the list can reorder
+- A wrong key can ==silently== attach the wrong state to the wrong row`,
+  longExplanation: `Rendering a list in React is just JavaScript: call \`.map()\` on an array and return one element per item. The \`key\` prop isn't rendered to the DOM at all — it's a hint React's **reconciler** uses to match elements in the new render to elements from the previous one.
+
+- A key must be **stable** (the same item gets the same key every render), **unique** among siblings, and ideally derived from the data itself — a database id, not something regenerated on each render
+- Matching keys let React preserve DOM nodes, component state, and focus for items that persist across a re-render, instead of tearing everything down and rebuilding it
+- The **array index** works fine for a static list that only appends to the end, but breaks once items can be reordered, filtered, or inserted in the middle — the index is a *position*, not an ==identity==
+- With index keys, React can reuse a DOM node (and its local state, like a typed input value) for what is now conceptually a *different* item — a subtly wrong result even though the visible labels look correct
+- Filtering or sorting a list is just deriving a new array during render and mapping over that; nested arrays render the same way, one level deeper, each with their own keys
+
+The fix is always the same: give each item a real, stable identifier when the data is created, and use that identifier as the key instead of its position.`,
+  diagram: ReactListsDiagram,
   examples: [
     {
       id: "basic-map-list",

@@ -1,13 +1,24 @@
 import type { Topic } from "../../types";
+import { ReactForwardRefDiagram } from "../../components/molecules/Diagrams/ReactForwardRefDiagram";
 
 export const reactForwardRefTopic: Topic = {
   id: "react-forward-ref",
   title: "React Forward Ref",
   category: "Advanced",
-  shortExplanation:
-    "A plain ref prop passed to a custom component is silently ignored, because refs don't flow through props like other values do. React.forwardRef((props, ref) => ...) opts a component into receiving that ref and lets it attach it to one of its own underlying DOM nodes, which is essential for reusable wrapper components that still need to expose .focus(), .click(), or similar imperative behavior.",
-  longExplanation:
-    "React treats ref specially: it is not part of the props object a component receives, so writing <MyInput ref={someRef} /> where MyInput is an ordinary function component does nothing useful — someRef.current stays null, and in development React historically warned that function components cannot be given refs. React.forwardRef((props, ref) => element) fixes this by giving a component a second parameter, ref, which the caller's ref is passed into, and which the component can then forward onto whatever DOM node inside it should be the real target — typically by writing ref={ref} on that node. This is the mechanism that makes reusable, styled wrapper components (a design-system TextInput, Button, or Modal) behave like native elements from the outside: a parent can still call .focus() on the input, .click() on the button, or measure the wrapped node's size, exactly as if no wrapper existed. Forwarding the raw DOM node is sometimes too permissive, though — it lets any parent call arbitrary DOM methods and read arbitrary DOM state, which couples callers to implementation details. useImperativeHandle(ref, () => ({ ... })), used together with forwardRef, replaces the forwarded value with a custom object exposing only the specific methods the component author wants to support (e.g. focus and clear), keeping the underlying DOM node itself private. This pattern also generalizes to collections: a list where each row needs its own imperatively-controllable ref (to scroll to it, flash it, or measure it) typically keeps an array or Map of refs — one per item — created with useRef and populated via callback refs or indexed assignment, rather than a single shared ref. The overarching rule to remember is that ref and props are separate channels; forwardRef is the explicit bridge between them for custom components, and useImperativeHandle is the way to control exactly what crosses that bridge.",
+  shortExplanation: `A plain \`ref\` prop passed to a custom function component is silently ignored — refs don't flow through \`props\` like other values do.
+
+- \`React.forwardRef((props, ref) => ...)\` opts a component into ==receiving== that \`ref\`
+- The component attaches it to one of its own underlying DOM nodes
+- Essential for reusable wrappers that still need to expose \`.focus()\`, \`.click()\`, or similar imperative behavior`,
+  longExplanation: `React treats \`ref\` specially: it is **not** part of the \`props\` object a component receives, so writing \`<MyInput ref={someRef} />\` on an ordinary function component does nothing useful — \`someRef.current\` stays \`null\`. \`React.forwardRef((props, ref) => element)\` fixes this by giving a component a second parameter, \`ref\`, which the caller's ref is passed into, and which the component can then forward onto whatever DOM node inside it should be the real target — typically by writing \`ref={ref}\` on that node.
+
+- This is what makes reusable, styled wrapper components (a design-system \`TextInput\`, \`Button\`, or \`Modal\`) behave like native elements from the outside — a parent can still call \`.focus()\`, \`.click()\`, or measure the wrapped node's size
+- Forwarding the raw DOM node is sometimes *too permissive*: it lets any parent call arbitrary DOM methods and read arbitrary DOM state, coupling callers to implementation details
+- \`useImperativeHandle(ref, () => ({ ... }))\`, used together with \`forwardRef\`, replaces the forwarded value with a ==custom object== exposing only the specific methods the author wants to support (e.g. \`focus\` and \`clear\`) — keeping the underlying DOM node itself private
+- The pattern also generalizes to collections: a list where each row needs its own imperatively-controllable ref (to scroll to it, flash it, or measure it) typically keeps an array or \`Map\` of refs, one per item, rather than a single shared ref
+
+\`ref\` and \`props\` are separate channels — \`forwardRef\` is the explicit bridge between them for custom components, and \`useImperativeHandle\` is the way to control exactly what crosses that bridge.`,
+  diagram: ReactForwardRefDiagram,
   examples: [
     {
       id: "forward-ref-text-input",

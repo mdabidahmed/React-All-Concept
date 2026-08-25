@@ -2,14 +2,25 @@ import { BrowserRouter } from "react-router-dom";
 import { AppRouter } from "./router/AppRouter";
 import { ToastProvider } from "./components/organisms/ToastProvider/ToastProvider";
 import { ProgressProvider } from "./components/organisms/ProgressProvider/ProgressProvider";
+import { QuizSessionProvider } from "./components/organisms/QuizSessionProvider/QuizSessionProvider";
+import { ConfirmProvider } from "./components/organisms/ConfirmProvider/ConfirmProvider";
+
+// Strip a trailing slash (except for the root "/") so React Router's basename matches its expected format.
+const basename = import.meta.env.BASE_URL.length > 1
+  ? import.meta.env.BASE_URL.replace(/\/$/, "")
+  : import.meta.env.BASE_URL;
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <ToastProvider>
-        <ProgressProvider>
-          <AppRouter />
-        </ProgressProvider>
+        <ConfirmProvider>
+          <ProgressProvider>
+            <QuizSessionProvider>
+              <AppRouter />
+            </QuizSessionProvider>
+          </ProgressProvider>
+        </ConfirmProvider>
       </ToastProvider>
     </BrowserRouter>
   );

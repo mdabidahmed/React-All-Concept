@@ -4,10 +4,18 @@ export const reactCssInJsTopic: Topic = {
   id: "react-css-in-js",
   title: "React CSS-in-JS",
   category: "Styling",
-  shortExplanation:
-    "CSS-in-JS libraries (styled-components, Emotion, and similar) let you write CSS directly inside a JS/TS file using tagged template literals, generating a scoped class name and a real React component — const Button = styled.button`...`. Styles can read props and state directly, so there's no manual class-toggling for visual variants.",
-  longExplanation:
-    "The defining feature of CSS-in-JS is that styling and component logic live in the same file and the same language: a call like styled.button`background: ${(p) => p.color};` returns an actual React component, and when that component's props change, the library regenerates (or looks up a cached) class name and injects the corresponding CSS into the page automatically — there's no separate stylesheet to keep in sync, and no need to manually compute a className string based on a prop the way you would with plain CSS or CSS Modules. This buys real ergonomic advantages: co-location (the styles live right next to the component that uses them), dynamic styling driven directly by props/theme/state without extra plumbing, and automatic scoping similar to CSS Modules but generated at runtime (or partly at build time, depending on the library and configuration). The tradeoffs are a runtime cost (style computation and injection happen as the app runs, though modern libraries optimize this heavily) and a dependency on the library itself. Because this sandbox has no module system and can't import an actual package like styled-components or Emotion, these examples hand-roll a tiny stand-in: a helper function that takes a template of CSS text (with prop-based interpolations already resolved to a string), generates a unique class name, injects a <style> tag containing that CSS under the generated class, and returns a component that applies it — this captures the shape and feel of the real pattern (write CSS, get back a styled component) without being production code; in an actual project you would use the real library, which handles caching, server-side rendering, theming, and vendor-prefixing far more robustly than a hand-rolled version ever could.",
+  shortExplanation: `**CSS-in-JS** libraries (styled-components, Emotion, and similar) let you write CSS directly inside a JS/TS file using ==tagged template literals== — a call like \`styled.button\` returns a real, styled React component.
+
+- Generates a scoped class name automatically, with no separate stylesheet
+- Styles can read props and state *directly*
+- No manual class-toggling needed for visual variants`,
+  longExplanation: `The defining feature of CSS-in-JS is that styling and component logic live in the same file and language: a tagged-template call like \`styled.button\` — CSS text with prop-based interpolations written directly inline — returns an actual React component. When its props change, the library regenerates (or looks up a cached) class name and injects the matching CSS into the page automatically, so there's no separate stylesheet to keep in sync and no manual \`className\` computation.
+
+- This buys real ergonomic advantages: co-location of styles with the component that uses them, and *dynamic* styling driven directly by props, theme, or state without extra plumbing
+- Scoping works similarly to CSS Modules, but is generated at ==runtime== (or partly at build time, depending on the library)
+- The tradeoffs: a runtime cost for style computation and injection (modern libraries optimize this heavily), and a dependency on the library itself
+
+This sandbox has no module system and can't import a real package like styled-components or Emotion, so these examples hand-roll a tiny stand-in: a helper that takes a template of CSS text, generates a unique class name, injects a \`<style>\` tag containing that CSS under the generated class, and returns a component that applies it. It captures the shape of the real pattern — write CSS, get back a styled component — without being production code; a real project would use the actual library, which handles caching, server-side rendering, theming, and vendor-prefixing far more robustly.`,
   examples: [
     {
       id: "styled-button-variant",

@@ -4,10 +4,16 @@ export const reactTextareaTopic: Topic = {
   id: "react-textarea",
   title: "React Textarea",
   category: "Forms",
-  shortExplanation:
-    "In plain HTML a <textarea> holds its initial text as children between its opening and closing tags, but React controls it exactly like an <input>: with a value prop and an onChange handler, and no children at all. This is the one meaningful difference between HTML and JSX textareas — everything else about controlled behavior carries over unchanged.",
-  longExplanation:
-    "HTML's <textarea>defaultText</textarea> is unusual among form elements because its initial value is written as text content between the tags rather than as a value attribute, which made sense for multi-line text in old HTML but is inconsistent with every other input element. React normalizes this inconsistency away: a <textarea> in JSX takes a value prop and an onChange handler, just like a controlled <input>, and does not accept children for its content at all — passing children to a textarea is deprecated and will trigger a warning. Once that one difference is understood, every controlled-component technique that applies to text inputs applies equally to textareas: the displayed text comes from state, every keystroke fires onChange with an event whose target.value holds the full current text, and the handler decides what the next state should be, which means you can enforce a maximum length, strip disallowed characters, or transform the input before it's ever rendered back to the screen. Because a textarea's value can contain newline characters, it's also a convenient way to demonstrate derived values computed from state during render, such as a live character count or a rendered 'preview' of the text elsewhere on the page, both of which fall out naturally once the raw text lives in state instead of being locked away inside the DOM. As with inputs, an uncontrolled textarea is possible via defaultValue and a ref for cases that don't need to react to every keystroke, but the controlled pattern remains the default in idiomatic React code because it keeps the textarea's content available to the rest of the component for validation, formatting, or synchronization with other UI at all times, not only at the moment of submission.",
+  shortExplanation: `Plain HTML's \`<textarea>\` holds its initial text as *children* between its tags, but React controls it exactly like an \`<input>\`: a \`value\` prop and an \`onChange\` handler, with ==no children== at all.
+
+- That's the one meaningful difference between HTML and JSX textareas
+- Everything else about controlled behavior — value from state, \`onChange\` updates it — carries over unchanged`,
+  longExplanation: `HTML's \`<textarea>defaultText</textarea>\` is unusual among form elements: its initial value is written as *text content* between the tags rather than as a \`value\` attribute — sensible for multi-line text in old HTML, but inconsistent with every other input. React normalizes this away: a \`<textarea>\` in JSX takes \`value\` and \`onChange\` just like a controlled \`<input>\`, and passing children to it is deprecated and triggers a warning.
+
+- Once that one difference is understood, every controlled-input technique carries over: text comes from state, each keystroke fires \`onChange\` with \`event.target.value\` holding the full text, and the handler decides the next state
+- That lets you enforce a max length, strip disallowed characters, or transform input before it's rendered back to the screen
+- Because the value can contain newlines, it's a natural fit for **derived values** computed during render — a live character count, or a rendered "preview" of the text elsewhere on the page
+- An **uncontrolled** textarea is possible via \`defaultValue\` and a \`ref\` for cases that don't need to react to every keystroke, but ==controlled== stays the default so the content is available for validation, formatting, or sync at all times, not just at submission`,
   examples: [
     {
       id: "basic-controlled-textarea",

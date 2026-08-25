@@ -4,10 +4,20 @@ export const reactJsxIntroTopic: Topic = {
   id: "react-jsx-intro",
   title: "React JSX Intro",
   category: "JSX",
-  shortExplanation:
-    "JSX is a syntax extension that lets you write markup-like tags directly in JavaScript; a compiler like Babel or esbuild turns each tag into a React.createElement call (or the equivalent automatic-runtime call) before the browser ever sees it. React uses it because it keeps markup and the logic that drives it in one place, with full JavaScript expressions and tooling support, instead of separate template strings.",
-  longExplanation:
-    "JSX looks like HTML embedded in JavaScript, but it is not a templating language and browsers cannot run it directly — it's syntax sugar that a build step compiles into ordinary function calls. Writing <h1 className=\"title\">Hi</h1> compiles to something like React.createElement('h1', { className: 'title' }, 'Hi'), a plain JavaScript call that returns a lightweight object describing that element; React uses that object during rendering and reconciliation. React's designers chose this over separate template files because it lets a component's markup and the logic that computes it live in the same function, in the same language, which means you get real JavaScript expressions inside your markup (loops via map, conditionals via ternaries or &&, actual variables) instead of a templating language's limited mini-syntax, and you get the surrounding tooling for free: syntax highlighting, type-checking props against a component's signature, linting for mistakes, and 'go to definition' jumping straight into a component. JSX comes with a handful of ground rules that follow directly from it being JavaScript function calls under the hood. A function can only return one value, so a component must return a single root element — historically that meant wrapping siblings in an extra <div>, but a Fragment (<>...</> or React.Fragment) lets you group multiple top-level elements without adding a real DOM node. Because class is a reserved word in JavaScript, JSX uses className instead (and htmlFor instead of for); most other attributes are camelCased to match their DOM property names (onClick, tabIndex). Void elements like <img> or <input> that have no children must be self-closed with a trailing slash, again because JSX is parsed as JavaScript expressions, not lenient HTML. And anywhere you need to escape from static markup into a JavaScript value — a variable, a function call, an expression — curly braces {} do it, which is the single mechanism that makes JSX dynamic at all.",
+  shortExplanation: `==JSX== is a syntax extension that lets you write markup-like tags directly in JavaScript.
+
+- A compiler like Babel or esbuild turns each tag into a \`React.createElement\` call (or the equivalent automatic-runtime call) *before* the browser ever sees it
+- React uses it because it keeps markup and the logic driving it in **one place**
+- You get full JavaScript expressions and tooling support, instead of separate template strings`,
+  longExplanation: `JSX looks like HTML embedded in JavaScript, but it is not a templating language — browsers can't run it directly, it's syntax sugar a build step compiles into ordinary function calls.
+
+- \`<h1 className="title">Hi</h1>\` compiles to \`React.createElement('h1', { className: 'title' }, 'Hi')\`, a plain call that returns a lightweight object describing that element
+- React's designers chose this over separate template files because a component's markup and the logic computing it live in the **same function** — real JS expressions (loops via \`map\`, conditionals via ternary or \`&&\`) instead of a template language's limited mini-syntax
+- It also brings the surrounding tooling for free: syntax highlighting, prop type-checking, linting, "go to definition"
+- Because JSX is JS function calls under the hood, a component must return a **single root element** — a *Fragment* (\`<>...</>\`) lets you group siblings without adding a real DOM node
+- \`class\` is a reserved word, so JSX uses \`className\` (and \`htmlFor\` instead of \`for\`); most other attributes are camelCased to match DOM property names (\`onClick\`, \`tabIndex\`)
+- Void elements like \`<img>\` or \`<input>\` must be self-closed with a trailing slash, since JSX is parsed as JavaScript expressions, not lenient HTML
+- Curly braces \`{}\` are the ==single mechanism== for escaping from static markup into a JavaScript value — a variable, a function call, any expression`,
   examples: [
     {
       id: "embedded-expression",

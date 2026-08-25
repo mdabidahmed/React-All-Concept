@@ -1,0 +1,88 @@
+.wrap {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  animation: fade-in-up 420ms var(--ease-out) both;
+}
+
+.box {
+  fill: var(--bg-elevated);
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.boxAccent {
+  fill: var(--accent-bg);
+  stroke: var(--accent-border);
+  stroke-width: 1.5;
+}
+
+.label {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 12.5px;
+  fill: var(--text-h);
+}
+
+.sublabel {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  fill: var(--text-muted);
+}
+
+.caption {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 10px;
+  fill: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.arrow {
+  stroke: var(--border-strong);
+  stroke-width: 1.75;
+  fill: none;
+}
+
+.arrowAccent {
+  stroke: var(--accent);
+  stroke-width: 1.75;
+  fill: none;
+  stroke-dasharray: 4 4;
+}
+
+.arrowHead {
+  fill: var(--border-strong);
+}
+
+.arrowHeadAccent {
+  fill: var(--accent);
+}
+
+.node {
+  fill: var(--bg-elevated);
+  stroke: var(--border-strong);
+  stroke-width: 1.75;
+}
+
+.nodeAccent {
+  fill: var(--accent);
+  stroke: var(--accent);
+}

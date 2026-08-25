@@ -1,13 +1,23 @@
 import type { Topic } from "../../types";
+import { ReactComponentsDiagram } from "../../components/molecules/Diagrams/ReactComponentsDiagram";
 
 export const reactComponentsTopic: Topic = {
   id: "react-components",
   title: "React Components",
   category: "Components",
-  shortExplanation:
-    "A React component is a JavaScript function, conventionally named in PascalCase, that returns JSX describing a piece of UI. Components are composable — they can render other components inside them — and reusable, since the same component can appear many times with different props, forming a tree that mirrors the structure of the page.",
-  longExplanation:
-    "The component is React's core unit of reuse: instead of a page being one monolithic template, it's built from small functions, each returning a description of some piece of UI, that call each other the way ordinary functions call each other. A component's name must start with a capital letter (PascalCase) because that's how JSX tells components apart from plain HTML tags — <button> is treated as the built-in DOM element, while <Button> is looked up as a variable in scope, so a lowercase component function would silently be rendered as an unknown HTML tag instead. Because a component is 'just a function', it can be as small as a single line or as large as an entire page, and the right size is usually 'one clear responsibility' — a component that's grown too many unrelated concerns is a signal to split it into smaller ones. Rendering one component inside another (parent renders <Child />) is what builds a component tree: the same nesting relationships you see in the JSX map directly onto a tree of component instances, with data flowing down through props and events flowing back up through callback props. This is also where React's two component styles show up: nearly all modern code is written as function components, which use hooks (useState, useEffect, and friends) for state and lifecycle behavior, but React also supports an older style called class components, written as ES6 classes extending React.Component with their own this.state and lifecycle methods — you'll mostly encounter these reading legacy code rather than writing new code (see the 'React Class' topic for a full comparison). Every component, whichever style, must be pure with respect to its inputs: given the same props and state, it should always describe the same UI, which is what makes the tree predictable and testable at every level.",
+  shortExplanation: `A React component is a JavaScript function, conventionally named in **PascalCase**, that returns JSX describing a piece of UI. Components are ==composable== — they render other components inside them — and reusable, so the same component can appear many times with different props.
+
+- Returns **JSX**: a description of what should appear on screen
+- *Composable*: components render other components, forming a tree
+- *Reusable*: the same component works with different props each time`,
+  longExplanation: `The component is React's core unit of reuse: instead of a page being one monolithic template, it's built from small functions that call each other the way ordinary functions do, each returning a description of some piece of UI.
+
+- A component's name must start with a capital letter (**PascalCase**), because that's how JSX tells components apart from plain HTML tags — \`<button>\` is the built-in DOM element, while \`<Button>\` is looked up as a variable in scope, so a lowercase function would silently render as an unknown HTML tag
+- Because a component is "just a function," it can be one line or an entire page — the right size is usually *one clear responsibility*; too many unrelated concerns is a signal to split it up
+- Rendering one component inside another builds a ==component tree==: the same nesting you see in JSX maps directly onto nested component instances, with data flowing down through props and events flowing back up through callback props
+- Modern React is almost entirely **function components** using hooks; an older style called **class components** (an ES6 class extending \`React.Component\`, with \`this.state\` and lifecycle methods) still shows up in legacy code — see the React Class topic for a full comparison
+- Every component, whichever style, must be *pure* with respect to its inputs: given the same props and state, it should always describe the same UI, which is what makes the tree predictable and testable at every level`,
+  diagram: ReactComponentsDiagram,
   examples: [
     {
       id: "minimal-component",

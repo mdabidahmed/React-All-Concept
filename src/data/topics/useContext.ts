@@ -1,13 +1,24 @@
 import type { Topic } from "../../types";
+import { UseContextDiagram } from "../../components/molecules/Diagrams/UseContextDiagram";
 
 export const useContextTopic: Topic = {
   id: "use-context",
   title: "useContext",
   category: "Core Hooks",
-  shortExplanation:
-    "useContext reads a value from the nearest matching Context.Provider above it in the tree, letting deeply nested components consume shared data without threading props through every level.",
-  longExplanation:
-    "React context solves 'prop drilling': passing a value through many intermediate components that don't otherwise need it. createContext(defaultValue) creates a Context object with a Provider component; anywhere below a <Context.Provider value={...}> in the tree, useContext(Context) returns that value, live-updating whenever the provider's value changes. If no provider is present above the consumer, useContext returns the defaultValue passed to createContext. Every component that calls useContext(SomeContext) re-renders whenever the provider's value changes, so it's best used for data that genuinely is 'global' to a subtree — theme, authenticated user, locale, a design-system config — rather than as a general state-management replacement for everything. A common pattern is to pair context with useState or useReducer in a small provider component, then export a custom hook (e.g. useAuth()) that wraps useContext and throws a helpful error if it's used outside the provider.",
+  shortExplanation: `\`useContext\` reads a value from the nearest matching \`Context.Provider\` above it in the tree, letting deeply nested components consume shared data ==without prop drilling==.
+
+- Wrap a subtree in \`<Context.Provider value={...}>\`
+- Any descendant calls \`useContext(Context)\` to read that value directly
+- No provider above? It falls back to \`createContext\`'s **default value**`,
+  longExplanation: `React context solves *prop drilling* — passing a value through many intermediate components that don't actually need it, just to get it to one that does. \`createContext(defaultValue)\` creates a Context object with a **Provider** component; anywhere below a \`<Context.Provider value={...}>\` in the tree, \`useContext(Context)\` returns that value directly.
+
+- If no provider is above the consumer, \`useContext\` falls back to the **default value** passed to \`createContext\`
+- Every component that calls \`useContext(SomeContext)\` ==re-renders== whenever the provider's value changes
+- Best used for data that's genuinely global to a subtree — theme, authenticated user, locale, a design-system config — not as a general state-management replacement
+- A common pattern pairs context with \`useState\` or \`useReducer\` inside a small provider component, then exports a custom hook (e.g. \`useAuth()\`) that wraps \`useContext\` and throws a helpful error if it's used outside the provider
+
+That last pattern is worth internalizing: it gives consumers a clean, purpose-built API instead of the raw context object, and catches a common mistake — forgetting the provider — with a clear error instead of a silent \`null\`.`,
+  diagram: UseContextDiagram,
   examples: [
     {
       id: "theme-context",

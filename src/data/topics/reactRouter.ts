@@ -1,13 +1,23 @@
 import type { Topic } from "../../types";
+import { ReactRouterDiagram } from "../../components/molecules/Diagrams/ReactRouterDiagram";
 
 export const reactRouterTopic: Topic = {
   id: "react-router",
   title: "React Router",
   category: "Routing & Motion",
-  shortExplanation:
-    "react-router-dom is the standard client-side routing library for React single-page apps: BrowserRouter wraps the app, Routes/Route map URL paths to components, and Link navigates without a full page reload. It keeps the URL in sync with what's on screen, so pages are bookmarkable and the browser's back/forward buttons work.",
-  longExplanation:
-    "In a real project, react-router-dom wires your component tree to the browser's URL: a top-level <BrowserRouter> (or <HashRouter>/<MemoryRouter> depending on the environment) provides routing context, <Routes> contains one or more <Route path=\"/about\" element={<About />} /> entries that each map a URL path to the component to render there, and <Link to=\"/about\">About</Link> renders a real anchor tag but intercepts the click to update the URL via the History API instead of triggering a full page reload — so React can swap components instantly while the address bar and browser history stay accurate. Dynamic segments in a path (e.g. /users/:id) are read inside the matched component with the useParams hook, and useNavigate gives you an imperative way to change routes from code (after a form submits, after an action completes, etc.) rather than from a rendered link. Layout routes let a persistent shell (header, sidebar, nav) wrap a swappable page area via nested routes and an <Outlet />. Because this sandbox renders inside an embedded preview with no real address bar to navigate and no external npm package available to import, these examples simulate the same mental model by hand: a useState holding the 'current path' as a plain string, a plain object mapping path strings to the component that should render for them, and clickable elements that call setPath(...) instead of using real <Link>/history.pushState. The simulation preserves the concepts — a route table, an active route, param-like data, nested layouts, and programmatic navigation — so the patterns transfer directly once you swap in the real library and a real <BrowserRouter> in an actual project.",
+  shortExplanation: `\`react-router-dom\` is the standard **client-side routing** library for React single-page apps.
+
+- \`BrowserRouter\` wraps the app, and \`Routes\`/\`Route\` map URL paths to components
+- \`Link\` navigates without a full page reload
+- The URL stays in sync with what's on screen, so pages are ==bookmarkable== and back/forward work`,
+  longExplanation: `In a real project, \`react-router-dom\` wires your component tree to the browser's URL. A top-level \`<BrowserRouter>\` (or \`<HashRouter>\`/\`<MemoryRouter>\` depending on the environment) provides routing context, \`<Routes>\` contains one or more \`<Route path="/about" element={<About />} />\` entries that each map a URL path to the component rendered there, and \`<Link to="/about">\` renders a real anchor tag but *intercepts* the click to update the URL via the History API instead of triggering a full page reload — so React can swap components instantly while the address bar and browser history stay accurate.
+
+- Dynamic segments in a path (e.g. \`/users/:id\`) are read inside the matched component with the \`useParams\` hook
+- \`useNavigate\` gives an *imperative* way to change routes from code — after a form submits, after an action completes — rather than from a rendered link
+- **Layout routes** let a persistent shell (header, sidebar, nav) wrap a swappable page area via nested routes and an \`<Outlet />\`
+
+This sandbox has no real address bar to navigate and no external package to import, so these examples ==simulate== the same mental model by hand: a \`useState\` holding the "current path" as a plain string, a plain object mapping path strings to the component that should render, and clickable elements that call \`setPath(...)\` instead of a real \`<Link>\`/\`history.pushState\`. The simulation preserves the concepts — a route table, an active route, param-like data, nested layouts, and programmatic navigation — so the patterns transfer directly once you swap in the real library and a real \`<BrowserRouter>\` in an actual project.`,
+  diagram: ReactRouterDiagram,
   examples: [
     {
       id: "basic-three-page-nav",

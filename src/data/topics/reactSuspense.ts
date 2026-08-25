@@ -1,13 +1,23 @@
 import type { Topic } from "../../types";
+import { ReactSuspenseDiagram } from "../../components/molecules/Diagrams/ReactSuspenseDiagram";
 
 export const reactSuspenseTopic: Topic = {
   id: "react-suspense",
   title: "React Suspense",
   category: "Advanced",
-  shortExplanation:
-    "<Suspense fallback={...}> lets part of the tree 'wait' for something async — typically React.lazy() code or a Suspense-integrated data source — by showing a fallback until it's ready, instead of manual isLoading flags scattered across components. A component signals it isn't ready by throwing a promise during render, which the nearest Suspense boundary catches and waits on.",
-  longExplanation:
-    "Suspense inverts the usual approach to loading states: instead of every component tracking its own isLoading boolean and conditionally rendering a spinner, a component simply throws while rendering if its data isn't ready yet, and the nearest ancestor <Suspense fallback={...}> catches that thrown value, shows the fallback, and automatically retries rendering the subtree once the thing it threw resolves. React.lazy(() => import(...)) is the most common producer of this pattern for code-splitting, since a dynamically-imported chunk isn't available synchronously; but the same mechanism underlies any Suspense-compatible data-fetching library, which internally throws a pending promise from a read()-style call the first time data is requested, then throws the resolved value or the error on subsequent renders once the promise settles. A hand-rolled version of this is a small resource wrapper: a read() method that throws the in-flight promise while status is 'pending', throws the error while status is 'error', and simply returns the data once status is 'success' — Suspense doesn't know anything about promises specifically, it only reacts to a thrown value that has a .then method. One boundary can wrap multiple independent resources, and where they're placed changes the granularity of loading: a single Suspense around several children shows one fallback until everything inside is ready, while separate nested Suspense boundaries let each subtree resolve and reveal itself independently. It's important to know what Suspense does not do: it is not an error boundary, so a rejected resource's thrown error must be caught by an actual class-based error boundary (componentDidCatch / static getDerivedStateFromError) placed around the Suspense boundary, not by the Suspense fallback itself. Retrying is just re-creating the resource — a fresh pending promise causes the boundary to suspend again — which is how 'retry' or 'refetch' buttons are typically implemented on top of this pattern.",
+  shortExplanation: `\`<Suspense fallback={...}>\` lets part of the tree =="wait"== for something async — typically \`React.lazy()\` code or a Suspense-integrated data source — instead of manual \`isLoading\` flags scattered across components.
+
+- A component signals *"not ready yet"* by throwing a **promise** during render
+- The nearest \`Suspense\` boundary catches it, shows the \`fallback\`, and retries once it resolves
+- \`React.lazy(() => import(...))\` is the most common built-in producer of this pattern`,
+  longExplanation: `Suspense inverts the usual approach to loading states: instead of every component tracking its own \`isLoading\` boolean and conditionally rendering a spinner, a component simply *throws* while rendering if its data isn't ready yet, and the nearest ancestor \`<Suspense fallback={...}>\` catches that thrown value, shows the fallback, and automatically retries rendering the subtree once the thing it threw resolves.
+
+- \`React.lazy(() => import(...))\` is the most common producer of this pattern, since a dynamically-imported chunk isn't available synchronously — but the same mechanism underlies any Suspense-compatible data-fetching library
+- A Suspense-integrated resource internally throws a **pending promise** from a \`read()\`-style call the first time data is requested, then throws the resolved value or the error on later renders once it settles — Suspense doesn't know anything about promises specifically, it only reacts to a thrown value with a \`.then\` method
+- One boundary can wrap several independent resources: a single \`Suspense\` around multiple children shows one fallback until *everything* inside is ready, while nested boundaries let each subtree reveal itself independently
+- \`Suspense\` is **not** an error boundary — a rejected resource's thrown error must be caught by an actual class-based error boundary (\`componentDidCatch\` / \`static getDerivedStateFromError\`) placed around it, not by the fallback itself
+- "Retry" is just re-creating the resource: a fresh pending promise makes the boundary ==suspend== again, which is how retry/refetch buttons are typically implemented on top of this pattern`,
+  diagram: ReactSuspenseDiagram,
   examples: [
     {
       id: "basic-suspense-resource",

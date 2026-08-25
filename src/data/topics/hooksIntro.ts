@@ -4,10 +4,21 @@ export const hooksIntroTopic: Topic = {
   id: "hooks-intro",
   title: "What is Hooks?",
   category: "Core Hooks",
-  shortExplanation:
-    "Hooks are plain functions, always starting with 'use', that let function components 'hook into' React features — state, effects, context, refs — that used to require class components. Two rules govern them: only call hooks at the top level of a component (never inside conditionals, loops, or nested functions), and only call them from React function components or other custom hooks.",
-  longExplanation:
-    "Before hooks were introduced in React 16.8, a function component could only render UI from its props — anything stateful (a counter, a form value, a subscription) required rewriting the component as a class, with state living on this.state, updates going through this.setState, and lifecycle logic split across separate methods like componentDidMount and componentWillUnmount even when that logic was conceptually one piece of behavior. Hooks let a plain function component opt into these same capabilities directly: useState gives it a piece of local state, useEffect lets it run code in response to render (replacing the scattered lifecycle methods with logic grouped by concern instead of by timing), useContext reads a value provided higher in the tree, useRef holds a mutable value that doesn't trigger re-renders, and useReducer, useMemo, and useCallback build on these fundamentals for more specific needs. The name convention (every hook starts with 'use') exists so React's linter and tooling can enforce the two rules that make hooks work at all: hooks must be called in the same order on every render, which is only guaranteed if they're called unconditionally at the top level of the function (never inside an if, a loop, or a callback), because React tracks each hook's state by the position it was called in, not by name; and hooks can only be called from function components or from other custom hooks, never from regular helper functions or outside the render flow, since that's the only context where React's per-component bookkeeping is available. This app's Core Hooks section walks through the built-in hooks one at a time — useState, useEffect, useContext, useRef, useReducer, useMemo, useCallback — and the Composition section shows how you can package your own logic into custom hooks (functions like useToggle or useDebouncedValue that call built-in hooks internally), which is the idiomatic way to share stateful behavior between components once you're comfortable with the basics.",
+  shortExplanation: `Hooks are plain functions — always starting with \`use\` — that let function components ==hook into== React features like state, effects, context, and refs, without needing a class component.
+
+- Call hooks only at the **top level** of a component — never inside conditionals, loops, or nested functions
+- Call hooks only from **React function components** or from other custom hooks`,
+  longExplanation: `Before hooks arrived in React 16.8, only class components could hold state or run lifecycle logic — state lived on \`this.state\`, updates went through \`this.setState\`, and related logic was often split across separate methods like \`componentDidMount\` and \`componentWillUnmount\` even when it was really one concern. Hooks let a plain function component opt into those same capabilities directly, with logic grouped by *what it does* rather than *when it runs*.
+
+- \`useState\` gives a component a piece of local state
+- \`useEffect\` runs code in response to render, replacing scattered lifecycle methods
+- \`useContext\` reads a value provided higher in the tree
+- \`useRef\` holds a mutable value that doesn't trigger re-renders
+- \`useReducer\`, \`useMemo\`, and \`useCallback\` build on these fundamentals for more specific needs
+
+The \`use\` naming convention exists so React's tooling can enforce two rules that make hooks work at all: hooks must be called in the ==same order on every render== — always unconditionally at the top level, never inside an \`if\`, a loop, or a callback — because React tracks each hook's state by *call position*, not by name. And hooks can only be called from function components or other custom hooks, never from a regular helper function, since that's the only context where React's per-component bookkeeping exists.
+
+This app's Core Hooks section walks through the built-ins one at a time, and the Composition section shows how to package your own logic into **custom hooks** — the idiomatic way to share stateful behavior between components once you're comfortable with the basics.`,
   examples: [
     {
       id: "before-and-after-hooks",

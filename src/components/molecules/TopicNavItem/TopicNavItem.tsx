@@ -32,7 +32,6 @@ export function TopicNavItem({ topic, completed, onNavigate }: TopicNavItemProps
         <span className={styles.dot} aria-hidden="true" />
       )}
       <span className={styles.title}>{topic.title}</span>
-      <span className={styles.count}>{topic.examples.length}</span>
     </NavLink>
   );
 }

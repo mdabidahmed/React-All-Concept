@@ -4,10 +4,20 @@ export const reactMultipleInputsTopic: Topic = {
   id: "react-multiple-inputs",
   title: "React Multiple Inputs",
   category: "Forms",
-  shortExplanation:
-    "Rather than writing a separate onChange handler for every field, give each input a name attribute matching a key in a single state object, and use one generic handler that writes event.target[name] into that key. It scales to any number of fields without new code per field.",
-  longExplanation:
-    "A form with many fields becomes unwieldy if each input gets its own useState call and its own handler function; the generic-handler pattern collapses all of that into one piece of state (an object) and one handleChange function. Every input is given a name attribute that matches a property on the state object, and the handler reads event.target.name to know which key to update, spreading the previous state and overwriting just that key: setForm(prev => ({ ...prev, [event.target.name]: event.target.value })). This relies on computed property names and on treating the input's name as data rather than hardcoding a field per handler, which is what makes the pattern generic. It still has to branch on input type in mixed forms, because a checkbox's meaningful value lives on event.target.checked while a text or select input's lives on event.target.value — reading the wrong property silently produces 'on'/undefined instead of a boolean or string. The pattern extends naturally to dynamic sets of fields, such as an array of rows added and removed at runtime, by keying each row's state slot with an id or array index instead of a fixed name. It also simplifies whole-form operations that would otherwise require touching every field individually: resetting the form is one setForm(initialState) call, and validating that all fields are filled is one check across Object.values(form) instead of one flag per input. The tradeoff is that the shared shape must be planned up front, and merging in a wrong key (e.g. a typo in name) fails silently rather than throwing, so keeping name attributes and state keys consistent matters.",
+  shortExplanation: `Rather than writing a separate \`onChange\` handler for every field, give each input a \`name\` attribute matching a key in a single state object, and use one ==generic handler== that writes into that key.
+
+- Every input shares one \`handleChange\` function
+- \`event.target.name\` tells the handler which key to update
+- It scales to any number of fields without new code per field`,
+  longExplanation: `A form with many fields gets unwieldy if each input has its own \`useState\` call and its own handler function. The **generic-handler pattern** collapses all of that into one state object and a single \`handleChange\` function.
+
+- Every input gets a \`name\` attribute matching a key on the state object; the handler reads \`event.target.name\` and writes into just that key: \`setForm(prev => ({ ...prev, [name]: value }))\`
+- This relies on *computed property names* and on treating the input's \`name\` as data — that's what makes the handler reusable across fields instead of hardcoded per field
+- Mixed forms still need to branch on input type: a checkbox's meaningful value lives on \`event.target.checked\`, not \`event.target.value\` — reading the wrong property silently produces \`"on"\`/\`undefined\` instead of a boolean or string
+- The same idea extends to a *dynamic* set of fields — an array of rows added and removed at runtime — by keying each row's state slot with an id or array index instead of a fixed name
+- It also simplifies whole-form operations: resetting is one \`setForm(initialState)\` call, and checking that every field is filled is one pass over \`Object.values(form)\` instead of a flag per input
+
+The tradeoff is that the shared shape must be planned up front: a typo in a \`name\` attribute makes updates ==silently land on the wrong key== instead of throwing, so keeping names and state keys consistent matters.`,
   examples: [
     {
       id: "two-field-shared-handler",

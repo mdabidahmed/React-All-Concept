@@ -1,13 +1,24 @@
 import type { Topic } from "../../types";
+import { ReactPortalsDiagram } from "../../components/molecules/Diagrams/ReactPortalsDiagram";
 
 export const reactPortalsTopic: Topic = {
   id: "react-portals",
   title: "React Portals",
   category: "Advanced",
-  shortExplanation:
-    "ReactDOM.createPortal(children, domNode) renders a component's children into a different DOM node than its parent, while keeping that component in its normal place in the React tree. Context, event bubbling through React's synthetic event system, and state all behave as if the portaled content were nested normally — only its physical location in the DOM changes.",
-  longExplanation:
-    "Normally, a component's rendered output is appended to the DOM inside its parent's DOM node, mirroring the React tree. A portal breaks that link on the DOM side only: ReactDOM.createPortal(children, domNode) tells React to mount children into domNode instead of the current parent, which is exactly what's needed for modals, tooltips, dropdowns, and toasts that must visually escape an ancestor's overflow:hidden, a fixed z-index stacking context, or a scrollable container, without being physically nested inside it. Crucially, the portal does not create a new React tree — the component calling createPortal is still a normal child in the component tree, so props, context providers above it, and component state all work exactly as if no portal were involved. The same is true for events: React's synthetic event system dispatches events based on the React tree, not the raw DOM tree, so a click inside portaled content still bubbles up through onClick handlers on its React ancestors even though, in the actual DOM, the portaled node sits somewhere else entirely — this is one of the most commonly misunderstood aspects of portals and worth demonstrating directly. A frequent real-world target is document.body (or a dedicated #modal-root div added to index.html), since that guarantees escaping every ancestor's CSS containment; the tradeoff is that portaled content still needs its own explicit positioning (typically position: fixed or absolute) because it's no longer inside whatever layout container gave it position before. Portals are a DOM-placement tool, not a state-management tool — reach for context or lifting state up when the goal is sharing data, and reach for a portal only when the goal is where something physically renders.",
+  shortExplanation: `\`ReactDOM.createPortal(children, domNode)\` renders a component's children into a ==different DOM node== than its parent, while keeping that component in its normal place in the React *tree*.
+
+- Context, state, and event bubbling all behave as if the content were nested normally
+- Only the *physical location* in the DOM changes — not the component tree
+- React's **synthetic event system** dispatches based on the React tree, not the raw DOM tree`,
+  longExplanation: `Normally, a component's rendered output is appended to the DOM inside its parent's DOM node, mirroring the React tree exactly. A portal breaks that link on the *DOM side only*: \`createPortal(children, domNode)\` tells React to mount \`children\` into \`domNode\` instead of the current parent — exactly what's needed for modals, tooltips, dropdowns, and toasts that must visually escape an ancestor's \`overflow: hidden\`, a fixed z-index stacking context, or a scrollable container, without being physically nested inside it.
+
+- The portal does **not** create a new React tree — the component calling \`createPortal\` is still a normal child in the component tree, so props, context providers above it, and state all work exactly as if no portal were involved
+- Events follow the same rule: React's ==synthetic event system== dispatches based on the *React tree*, not the raw DOM tree, so a click inside portaled content still bubbles up through \`onClick\` handlers on its React ancestors — even though in the real DOM the node sits somewhere else entirely
+- A frequent target is \`document.body\` (or a dedicated \`#modal-root\` div), since that guarantees escaping every ancestor's CSS containment
+- The tradeoff: portaled content needs its own explicit positioning (typically \`position: fixed\` or \`absolute\`), since it's no longer inside whatever layout container gave it position before
+
+Portals are a DOM-*placement* tool, not a state-management tool — reach for context or lifting state up when the goal is sharing data, and reach for a portal only when the goal is *where* something physically renders.`,
+  diagram: ReactPortalsDiagram,
   examples: [
     {
       id: "basic-portal",

@@ -4,10 +4,20 @@ export const reactFirstAppTopic: Topic = {
   id: "react-first-app",
   title: "React First App",
   category: "Getting Started",
-  shortExplanation:
-    "Every React app boils down to one entry file that mounts a single root component into the page, and that root component is just JSX describing the UI. A first app usually grows from a static 'Hello' into something with a couple of child components and a bit of state, which is the same shape every larger React app eventually takes.",
-  longExplanation:
-    "A generated React project can look intimidating at first, but nearly all of it is scaffolding around one small idea: somewhere there is an entry file (typically main.jsx) that calls createRoot on a DOM node and renders a single top-level component, conventionally named App, into it. Everything the user sees is produced by that one component tree. App itself is just a function that returns JSX — markup-like syntax that looks like HTML but is really JavaScript, which is why you can freely mix plain text, embedded expressions in curly braces, and nested elements. The very first version of a first app is often nothing more than a heading and a paragraph, which is intentionally underwhelming: the point is to confirm the whole pipeline (bundler, JSX compilation, mounting, rendering) works end to end before adding any real logic. From there, growth follows a predictable path. First you split markup into smaller named components once a section of JSX starts doing its own distinct job — a Header, a Greeting, a Footer — which keeps each piece readable and reusable, and this is also the first practical lesson in props, since a parent has to pass data down to configure its children. Then you introduce state with useState once the app needs to remember something between renders, like text typed into an input or whether a panel is expanded, and you see firsthand how changing that state causes React to re-render and update the screen. By the time a 'first app' has a couple of components and one piece of state, it already exercises the same fundamental loop — data flows down as props, state changes flow up as events, and React re-renders the affected parts — that every larger React application, no matter how complex, is built out of.",
+  shortExplanation: `Every React app boils down to one **entry file** that mounts a single root component into the page, and that root component is just JSX describing the UI.
+
+- A first app usually starts as a static "Hello"
+- It grows by splitting markup into **child components**
+- Then adds a bit of ==state== — the same shape every larger React app eventually takes`,
+  longExplanation: `A generated React project can look intimidating at first, but nearly all of it is scaffolding around one small idea.
+
+- Somewhere there's an **entry file** (typically \`main.jsx\`) that calls \`createRoot\` on a DOM node and renders one top-level component — conventionally named **App** — into it; everything the user sees comes from that one component tree
+- \`App\` is just a function that returns **JSX**: markup-like syntax that's really JavaScript, so it can freely mix plain text, embedded expressions in curly braces, and nested elements
+- The first version of a "first app" is often nothing more than a heading and a paragraph — intentionally underwhelming, since the point is just to confirm the whole pipeline (bundler, JSX compilation, mounting, rendering) works end to end
+- From there you split markup into smaller named components once a section of JSX starts doing its own job (a \`Header\`, a \`Greeting\`, a \`Footer\`), which is also the first practical lesson in **props**, since a parent has to pass data down to configure its children
+- Then you introduce \`useState\` once the app needs to remember something between renders — like typed text or whether a panel is expanded — and see firsthand how a state change causes React to re-render
+
+By the time a first app has a couple of components and one piece of state, it already exercises the same loop — data flows down as *props*, state changes flow up as events, and React re-renders the affected parts — that every larger React application is built on.`,
   examples: [
     {
       id: "static-hello",

@@ -4,10 +4,19 @@ export const reactPropsChildrenTopic: Topic = {
   id: "react-props-children",
   title: "React Props Children",
   category: "Components",
-  shortExplanation:
-    "props.children is a special prop that holds whatever JSX is nested between a component's opening and closing tags. It lets you write generic 'container' components — Card, Modal, Layout — that render whatever content the caller puts inside them without needing to know its shape.",
-  longExplanation:
-    "Whenever you write <Card><p>Hello</p></Card>, React automatically passes the <p>Hello</p> element to Card as a prop named children, exactly as if you had written <Card children={<p>Hello</p>} />. This single mechanism is the backbone of composition in React: a component that accepts children doesn't need to know or care what's rendered inside it, so the same Card, Modal, or Panel component can wrap a paragraph, a form, a chart, or another component tree without any changes to its own code. children can be a single element, an array of elements, a string, a number, or even a function (the 'render props' pattern, used less often now that hooks exist) — React treats whatever you nest as the value, and a component simply decides where in its own output to place {children}. A common pitfall is forgetting that children is undefined when nothing is nested, so components that always expect content should provide a fallback (a placeholder, an empty state, or a default value) rather than assuming children exists. Another subtlety is that children is opaque to the component receiving it — to inspect, count, or transform individual child elements you reach for the React.Children utilities (React.Children.map, React.Children.count) rather than treating children as a plain array, since it may be a single element rather than a list. Understanding children well is what unlocks writing true 'layout' components, and it's the foundation the rest of composition-based patterns (component-as-prop, slots, compound components) build on top of.",
+  shortExplanation: `\`props.children\` is a special prop holding whatever JSX is nested between a component's opening and closing tags — it's what powers generic ==container== components.
+
+- \`<Card><p>Hi</p></Card>\` is really \`<Card children={<p>Hi</p>} />\`
+- Lets you write \`Card\`, \`Modal\`, \`Layout\` — components that don't need to know what's inside them
+- \`children\` can be one element, an array, a string, a number, or even a function`,
+  longExplanation: `Whenever you write \`<Card><p>Hello</p></Card>\`, React automatically passes the \`<p>Hello</p>\` element to \`Card\` as a prop named \`children\` — exactly as if you'd written \`<Card children={<p>Hello</p>} />\`. This single mechanism is the backbone of ==composition== in React.
+
+- A component that accepts \`children\` doesn't need to know what's inside it — the same \`Card\`, \`Modal\`, or \`Panel\` can wrap a paragraph, a form, or another component tree unchanged
+- \`children\` can be a single element, an array of elements, a string, a number, or even a function (the older *render props* pattern)
+- \`children\` is \`undefined\` when nothing is nested — a component that always expects content should provide a fallback rather than assume it exists
+- \`children\` is opaque: to inspect, count, or transform individual child elements, use the **\`React.Children\`** utilities rather than treating it as a plain array, since it may be a single element rather than a list
+
+Understanding \`children\` well is what unlocks true *layout* components, and it's the foundation the rest of composition-based patterns — component-as-prop, slots, compound components — build on top of.`,
   examples: [
     {
       id: "basic-card-children",

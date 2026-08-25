@@ -4,10 +4,18 @@ export const reactJsxExpressionsTopic: Topic = {
   id: "react-jsx-expressions",
   title: "React JSX Expressions",
   category: "JSX",
-  shortExplanation:
-    "Anything inside curly braces {} in JSX is evaluated as a plain JavaScript expression and its result is inlined into the markup. That covers variables, function calls, arithmetic, ternaries, and array methods like .map() — but not statements such as if, for, or switch, because a statement doesn't produce a value.",
-  longExplanation:
-    "JSX is syntactic sugar over React.createElement calls, and curly braces are the escape hatch back into JavaScript-land: whatever expression you write between { and } is evaluated and its return value is dropped into the tree at that position. This is deliberately restricted to expressions — things that evaluate to a single value, like a variable reference, a function call, a template literal, a ternary, or a boolean && short-circuit — because JSX needs something it can render, and statements like if, for, switch, or variable declarations don't produce a value at all, they just perform an action. That's why you can't write {if (x) {...}} inside JSX and expect it to work; the fix is either to compute the value beforehand (an if/else assigned to a variable, or an early return from the component function) or to reach for an expression form that behaves like a conditional, most commonly the ternary operator or &&. The same rule is why rendering a list always goes through array.map() rather than a for loop written inline: map() is an expression that returns a new array of elements, and React knows how to render an array of JSX nodes directly. A few values render as nothing at all — null, undefined, true, and false all produce no output — which is exactly what makes the && pattern useful for conditionally rendering a chunk of UI, and exactly what causes the classic 'stray 0' bug when the left side of && evaluates to the number 0 instead of a boolean. Understanding this expressions-only boundary is foundational: nearly every other JSX pattern (conditional rendering, list rendering, computed attributes) is really just 'what expression do I put inside the braces.'",
+  shortExplanation: `Anything inside curly braces \`{}\` in JSX is evaluated as a plain JavaScript ==expression== and its result is inlined into the markup.
+
+- That covers variables, function calls, arithmetic, ternaries, and array methods like \`.map()\`
+- It does **not** cover *statements* such as \`if\`, \`for\`, or \`switch\` — a statement doesn't produce a value`,
+  longExplanation: `JSX is syntactic sugar over \`React.createElement\` calls, and curly braces are the escape hatch back into JavaScript: whatever *expression* you write between \`{\` and \`}\` is evaluated and its return value is dropped into the tree.
+
+- This is deliberately restricted to expressions — a variable, a function call, a template literal, a ternary, a boolean \`&&\` — because JSX needs something it can render
+- Statements like \`if\`, \`for\`, \`switch\`, or variable declarations don't produce a value, so they can't go inside \`{}\`; the fix is to compute the value beforehand (an \`if\`/\`else\` assigned to a variable, or an early return) or reach for an expression form like a **ternary** or \`&&\`
+- The same rule is why list rendering always goes through \`array.map()\` rather than an inline \`for\` loop — \`map()\` is an expression that returns a new array of elements, which React knows how to render directly
+- A few values render as **nothing at all**: \`null\`, \`undefined\`, \`true\`, and \`false\` all produce no output — which is what makes \`&&\` useful for conditional rendering, and exactly what causes the classic ==stray "0"== bug when the left side of \`&&\` evaluates to the number \`0\` instead of a boolean
+
+Nearly every other JSX pattern — conditional rendering, list rendering, computed attributes — really just comes down to *what expression you put inside the braces*.`,
   examples: [
     {
       id: "variable-interpolation",

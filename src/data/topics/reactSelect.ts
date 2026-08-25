@@ -4,10 +4,19 @@ export const reactSelectTopic: Topic = {
   id: "react-select",
   title: "React Select",
   category: "Forms",
-  shortExplanation:
-    "A controlled <select> gets its selected option from a value prop on the <select> element itself, not from a selected attribute on any <option>. Pair it with onChange reading event.target.value, and React keeps the dropdown in sync with state on every render.",
-  longExplanation:
-    "In plain HTML, the selected option is marked by putting a selected attribute on that particular <option> tag. React's controlled model inverts this: you put value on the <select> element itself, and React figures out which child <option> to display as selected by matching that value against each option's own value. This means the source of truth lives in one place — your component state — rather than being scattered across sibling <option> tags, which is exactly the same pattern used for controlled text inputs. As with any controlled field, you must also supply an onChange handler that reads event.target.value and calls your setter, or the select will appear frozen because React keeps re-rendering it back to the state value. A common pitfall is forgetting the onChange handler entirely and passing only value, which React will warn about and which makes the dropdown unresponsive to clicks. Options are frequently generated dynamically from an array via .map(), each rendering an <option value={...}> with a stable key. For selecting more than one item at once, the same element supports a multiple attribute; the change handler then reads the chosen options off event.target.selectedOptions (an HTMLCollection) rather than a single value. Because the selected value is ordinary state, it composes naturally with the rest of a form: it can drive conditional rendering, feed a submit handler, or be validated alongside other fields before enabling further actions.",
+  shortExplanation: `A controlled \`<select>\` gets its selected option from a \`value\` prop on the \`<select>\` element itself, not a \`selected\` attribute on any \`<option>\`.
+
+- Pair \`value\` with \`onChange\` reading \`event.target.value\`
+- React then keeps the dropdown in sync with ==state== on every render`,
+  longExplanation: `In plain HTML, the selected option is marked with a \`selected\` attribute on that particular \`<option>\` tag. React's controlled model inverts this: \`value\` goes on the \`<select>\` element itself, and React figures out which child \`<option>\` to display as selected by matching that value against each option's own \`value\`.
+
+- The source of truth lives in one place — component **state** — rather than scattered across sibling \`<option>\` tags, the same pattern used for controlled text inputs
+- \`onChange\` must read \`event.target.value\` and call the setter, or the select appears frozen, re-rendered back to the state value on every attempted change
+- A common pitfall is passing \`value\` without \`onChange\` — React warns about it, and the dropdown becomes unresponsive to clicks
+- Options are often generated dynamically from an array via \`.map()\`, each rendering an \`<option value={...}>\` with a stable \`key\`
+- A \`multiple\` attribute allows selecting more than one item; the handler then reads the chosen options off \`event.target.selectedOptions\` (an \`HTMLCollection\`) instead of a single value
+
+Because the selected value is ==ordinary state==, it composes naturally with the rest of a form: it can drive conditional rendering, feed a submit handler, or be validated alongside other fields before enabling further actions.`,
   examples: [
     {
       id: "basic-controlled-select",

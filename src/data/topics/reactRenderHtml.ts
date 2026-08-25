@@ -4,10 +4,20 @@ export const reactRenderHtmlTopic: Topic = {
   id: "react-render-html",
   title: "React Render HTML",
   category: "Getting Started",
-  shortExplanation:
-    "React turns JSX into real DOM nodes by calling createRoot on a container element and then .render(<App />) on that root. A root is the bridge between a plain DOM node and React's virtual tree; on every update React reconciles the new description against the previous one and patches only the parts of the real DOM that actually changed, rather than tearing everything down and rebuilding it.",
-  longExplanation:
-    "When a React app starts, the entry file grabs a real DOM element (usually a single <div id=\"root\"> in index.html) and calls createRoot(container).render(<App />). That call does two things: it establishes a root, which is React's internal bookkeeping tied to that container, and it renders the App element tree into it for the first time, producing actual DOM nodes — headings, paragraphs, list items — from the JSX you wrote. The critical part is what happens on every update after that. React does not naively throw away the DOM and rebuild it from scratch whenever state changes, which would be slow and would destroy things like input focus, scroll position, and CSS transition state. Instead, React keeps an internal, lightweight representation of the UI tree and, on each render, computes a new version of that tree and diffs it against the previous one — a process called reconciliation. It then generates the minimal set of real DOM operations needed to bring the actual page in sync: updating a text node here, adding an attribute there, inserting or removing an element only where the tree actually differs. Elements are matched up by their position in the tree and, for lists, by a key prop, which is why stable keys matter for correctness and performance. This is also why sibling elements that don't depend on changed state are left completely untouched during a re-render, even though the component function that returns them runs again — re-running the function is cheap JavaScript work, but React still only commits the DOM writes that actually differ. Understanding root-mounting and diffing explains a lot of React's behavior at once: why forms preserve focus across re-renders, why unrelated parts of the page don't flicker, and why keys and stable element identity matter so much once lists get involved.",
+  shortExplanation: `React turns JSX into real DOM nodes by calling \`createRoot\` on a container element, then \`.render(<App />)\` on that root.
+
+- A **root** is the bridge between a plain DOM node and React's virtual tree
+- On every update, React ==reconciles== the new description against the previous one
+- It patches only the parts of the real DOM that actually changed — never a full rebuild`,
+  longExplanation: `When a React app starts, the entry file grabs a real DOM element — usually a single \`<div id="root">\` in \`index.html\` — and calls \`createRoot(container).render(<App />)\`. That call does two things: it establishes a **root**, React's internal bookkeeping tied to that container, and it renders the \`App\` element tree into it for the first time, producing actual DOM nodes from the JSX you wrote.
+
+- On every update after that, React does **not** throw away the DOM and rebuild it from scratch — that would be slow and would destroy things like input focus, scroll position, and CSS transition state
+- Instead React keeps a lightweight internal representation of the UI tree and, on each render, diffs the new version against the previous one — a process called ==reconciliation==
+- It then generates the *minimal* set of real DOM operations needed to sync the page: updating a text node here, adding an attribute there, inserting or removing an element only where the tree actually differs
+- Elements are matched by their position in the tree and, for lists, by a **key** prop — which is why stable keys matter for correctness and performance
+- Sibling elements that don't depend on changed state are left completely untouched during a re-render, even though the component function reruns — rerunning the function is cheap, but React only *commits* the DOM writes that actually differ
+
+Understanding root-mounting and diffing explains a lot of React's behavior at once: why forms preserve focus across re-renders, why unrelated parts of the page don't flicker, and why keys matter once lists get involved.`,
   examples: [
     {
       id: "plain-tags",

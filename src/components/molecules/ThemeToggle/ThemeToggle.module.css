@@ -1,6 +1,7 @@
 .track {
   display: inline-flex;
-  padding: 3px;
+  align-items: center;
+  padding: 6px;
   background: var(--bg-subtle);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -16,7 +17,7 @@
   border: none;
   background: transparent;
   color: var(--text-muted);
-  border-radius: calc(var(--radius-md) - 3px);
+  border-radius: calc(var(--radius-md) - 6px);
   cursor: pointer;
   transition: background-color 150ms ease, color 150ms ease, transform 150ms var(--ease-spring);
 }

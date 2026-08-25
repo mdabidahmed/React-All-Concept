@@ -1,13 +1,23 @@
 import type { Topic } from "../../types";
+import { ReactClassDiagram } from "../../components/molecules/Diagrams/ReactClassDiagram";
 
 export const reactClassTopic: Topic = {
   id: "react-class",
   title: "React Class",
   category: "Components",
-  shortExplanation:
-    "Class components are React's older component style: an ES6 class extending React.Component, holding state in this.state, updating it via this.setState(), and hooking into the component's lifecycle through named methods like componentDidMount, componentDidUpdate, and componentWillUnmount. Modern React code is almost entirely function components with hooks, so this topic exists mainly so you can read and maintain legacy code, not as a pattern to write new code with.",
-  longExplanation:
-    "Before hooks were introduced in React 16.8, class components were the only way to give a component local state or run code in response to mounting, updating, and unmounting — a function component back then could only be a stateless, prop-in/JSX-out template. A class component extends React.Component, stores its state as a single object on this.state (initialized in the constructor), and never mutates that object directly — instead it calls this.setState(partialUpdate), which shallow-merges the given keys into the existing state and schedules a re-render, conceptually similar to what the useState setter does for function components. Lifecycle methods are the class-component analogue of useEffect: componentDidMount runs once, right after the component is first inserted into the DOM, and is where you'd start a subscription, a timer, or a data fetch; componentDidUpdate runs after every re-render caused by a props or state change, and is where you'd react to something having changed (typically after comparing prevProps/prevState to the current ones to avoid infinite update loops); componentWillUnmount runs right before the component is removed, and is where you clean up anything started in componentDidMount, such as clearing an interval or unsubscribing. A recurring class-component headache is that regular methods lose their this binding when passed around as callbacks (e.g. onClick={this.handleClick}), because JavaScript methods aren't automatically bound to their instance — the two fixes are binding in the constructor (this.handleClick = this.handleClick.bind(this)) or declaring the method as an arrow-function class property, which captures this lexically. Hooks were created specifically to remove these pain points — no this, no binding, and related logic (a subscription's setup and its cleanup) can live together in one useEffect instead of being split across two separate lifecycle methods — which is why virtually all new React code favors function components today.",
+  shortExplanation: `Class components are React's older component style: an ES6 class extending \`React.Component\`, holding state in \`this.state\`, and hooking into the lifecycle through named methods. Modern React is almost entirely ==function components== with hooks — this topic is mainly for reading legacy code.
+
+- State lives in \`this.state\`, updated via \`this.setState()\`
+- **Lifecycle methods** replace \`useEffect\`: mount, update, unmount
+- *Rarely written today* — you'll mostly encounter it in older codebases`,
+  longExplanation: `Before hooks arrived in React 16.8, class components were the only way to give a component local state or lifecycle behavior — a function component back then could only be a stateless, prop-in/JSX-out template. A class extends \`React.Component\`, stores its state as a single object on \`this.state\` (initialized in the constructor), and never mutates it directly — it calls \`this.setState(partialUpdate)\`, which shallow-merges the change and schedules a re-render, conceptually similar to what the \`useState\` setter does.
+
+- **componentDidMount** runs once, right after the component is first inserted into the DOM — the place to start a subscription, a timer, or a data fetch
+- **componentDidUpdate** runs after every re-render caused by a props or state change — typically after comparing \`prevProps\`/\`prevState\` to the current ones, to avoid infinite update loops
+- **componentWillUnmount** runs right before the component is removed — the place to clean up anything started in \`componentDidMount\`, like clearing an interval or unsubscribing
+
+A recurring class-component headache is that a regular method loses its \`this\` binding when passed around as a callback (\`onClick={this.handleClick}\`), since JavaScript methods aren't automatically bound to their instance — the fix is binding in the constructor, or declaring the method as an arrow-function class property, which captures \`this\` lexically. Hooks were created specifically to remove these pain points: no \`this\`, no binding, and related logic — a subscription's setup and its cleanup — can live together in one \`useEffect\` instead of being split across two lifecycle methods, which is why virtually all new React code favors ==function components== today.`,
+  diagram: ReactClassDiagram,
   examples: [
     {
       id: "class-counter",

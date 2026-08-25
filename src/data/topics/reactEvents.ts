@@ -1,13 +1,23 @@
 import type { Topic } from "../../types";
+import { ReactEventsDiagram } from "../../components/molecules/Diagrams/ReactEventsDiagram";
 
 export const reactEventsTopic: Topic = {
   id: "react-events",
   title: "React Events",
   category: "Components",
-  shortExplanation:
-    "React handles DOM events through camelCase props like onClick, onChange, and onSubmit, to which you pass a function reference rather than calling the function. The handler receives a synthetic event object with the same shape as a native DOM event, including preventDefault(), and you can pass extra arguments by wrapping the call in an inline arrow function.",
-  longExplanation:
-    "Event handling in React looks like HTML's inline onclick attributes but works quite differently underneath: instead of a string of code, you pass an actual function as the value of a camelCase prop — onClick, onChange, onSubmit, onMouseEnter, and so on — and React attaches the appropriate listener for you. The single most common beginner mistake is writing onClick={handleClick()} instead of onClick={handleClick}; the former calls the function immediately during render and passes its return value (usually undefined) as the handler, while the latter correctly passes a reference that React will call later, when the event actually happens. When the event fires, React calls your handler with an event object — historically a 'SyntheticEvent' wrapper providing a consistent cross-browser API, though modern React exposes the underlying native event directly in most cases — with familiar members like event.target, event.target.value (for inputs), and event.preventDefault(), which stops a form's default full-page submission or a link's default navigation. Because a handler prop only ever accepts one function, passing extra information (like which row of a list was clicked) requires wrapping the call in an inline arrow function, e.g. onClick={() => removeItem(item.id)}, so the arrow function itself is what gets passed to onClick, and it in turn calls removeItem with the right argument when invoked. Event handler names always describe the event (onClick), while the function you write to handle it is conventionally named for the action it performs (handleClick), a naming convention that keeps large components easier to scan. Multiple different event props can be attached to the same element simultaneously — a button can have onClick alongside onMouseEnter and onMouseLeave — since each is just a separate prop.",
+  shortExplanation: `React handles DOM events through camelCase props like \`onClick\`, \`onChange\`, and \`onSubmit\` — you pass a **function reference**, not a function call.
+
+- \`onClick={handleClick}\` passes a reference; \`onClick={handleClick()}\` calls it immediately during render — a common mistake
+- The handler receives an event object: \`event.target.value\`, \`event.preventDefault()\`, and more
+- Pass extra arguments by wrapping the call in an inline arrow function: \`onClick={() => remove(id)}\``,
+  longExplanation: `Event handling in React looks like HTML's inline \`onclick\` attributes but works differently underneath: you pass an actual function as the value of a camelCase prop — \`onClick\`, \`onChange\`, \`onSubmit\`, \`onMouseEnter\`, and so on — and React attaches the listener for you.
+
+- \`onClick={handleClick()}\` calls the function immediately during render and passes its return value (usually \`undefined\`) as the handler — always pass the *reference*, \`onClick={handleClick}\`
+- The handler receives an event object — historically a ==SyntheticEvent== wrapper for cross-browser consistency, though modern React exposes the native event directly in most cases — with familiar members like \`event.target.value\` and \`event.preventDefault()\`
+- A handler prop only accepts one function, so extra arguments (which row was clicked) require wrapping the call in an inline arrow function: \`onClick={() => removeItem(item.id)}\`
+- By convention, the prop describes the *event* (\`onClick\`) while the function describes the *action* (\`handleClick\`), which keeps large components easier to scan
+- Multiple event props can sit on the same element at once — \`onClick\`, \`onMouseEnter\`, \`onMouseLeave\` — since each is just a separate prop`,
+  diagram: ReactEventsDiagram,
   examples: [
     {
       id: "basic-click-handler",

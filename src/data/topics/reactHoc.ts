@@ -1,13 +1,25 @@
 import type { Topic } from "../../types";
+import { ReactHocDiagram } from "../../components/molecules/Diagrams/ReactHocDiagram";
 
 export const reactHocTopic: Topic = {
   id: "react-hoc",
   title: "React HOC",
   category: "Advanced",
-  shortExplanation:
-    "A Higher-Order Component (HOC) is a function that takes a component and returns a new, enhanced component — const Enhanced = withSomething(MyComponent). It's a way to reuse cross-cutting logic (auth checks, loading states, logging) by wrapping components rather than modifying them. Custom hooks now cover most of the same ground with less indirection.",
-  longExplanation:
-    "A higher-order component follows a simple shape: it's a plain function that accepts a component as an argument and returns a new component wrapping it, injecting extra props, extra markup, or conditional rendering around the original — for example withAuth(Dashboard) might render a login prompt instead of Dashboard when the user isn't authenticated, or withLoading(Table) might render a spinner while data is still loading. HOCs were the primary way to share stateful, cross-cutting logic between components before hooks existed, and libraries like older versions of Redux (connect) and React Router (withRouter) popularized the pattern. They come with well-known drawbacks, though: each HOC adds a wrapper component to the tree (visible in devtools as extra nesting), the props a HOC injects are implicit and can silently collide with props the wrapped component already uses or another HOC also injects, and composing several HOCs together (withA(withB(withC(Component)))) gets hard to read and trace. Custom hooks solve the same underlying problem — sharing stateful logic across components — without any of those costs: a hook like useAuth() or useLoading() is called directly inside the component that needs it, so there's no extra wrapper in the tree, no prop injection to name-collide, and the data flow is explicit at the call site. For that reason modern React code reaches for custom hooks by default and treats HOCs as a pattern you should recognize (since you'll still see it in some libraries and older codebases) rather than one you should reach for in new code.",
+  shortExplanation: `A **Higher-Order Component (HOC)** is a function that takes a component and returns a new, enhanced one — \`const Enhanced = withSomething(MyComponent)\`.
+
+- Reuses ==cross-cutting== logic (auth checks, loading states, logging) by *wrapping* components
+- The original component is never modified — a new one wraps it
+- Custom hooks now cover most of the same ground with less indirection`,
+  longExplanation: `A higher-order component follows a simple shape: a plain function that accepts a component and returns a *new* component wrapping it, injecting extra props, markup, or conditional rendering around the original — \`withAuth(Dashboard)\` might render a login prompt instead of \`Dashboard\` when the user isn't authenticated, or \`withLoading(Table)\` might render a spinner while data is still loading.
+
+- HOCs were the primary way to share ==stateful, cross-cutting== logic before hooks existed — older Redux's \`connect\` and React Router's \`withRouter\` popularized the pattern
+- Each HOC adds an extra wrapper component to the tree, visible in devtools as added nesting
+- The props a HOC injects are *implicit* and can silently collide with props the wrapped component already uses, or with another HOC's injected props
+- Composing several HOCs together — \`withA(withB(withC(Component)))\` — gets hard to read and trace
+- Custom hooks solve the same problem without those costs: a hook like \`useAuth()\` is called directly inside the component that needs it, so there's no wrapper, no prop collision, and the data flow is explicit at the call site
+
+Modern React code reaches for custom hooks by default, and treats HOCs as a pattern worth *recognizing* — since older libraries and codebases still use it — rather than one to reach for in new code.`,
+  diagram: ReactHocDiagram,
   examples: [
     {
       id: "with-border",

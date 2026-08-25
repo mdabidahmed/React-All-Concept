@@ -4,6 +4,7 @@ import { Navbar } from "../../organisms/Navbar/Navbar";
 import { Sidebar } from "../../organisms/Sidebar/Sidebar";
 import { CommandPalette } from "../../organisms/CommandPalette/CommandPalette";
 import { useTheme } from "../../../hooks/useTheme";
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import styles from "./MainLayout.module.css";
 
 interface MainLayoutProps {
@@ -14,6 +15,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   const { theme, setTheme } = useTheme();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useLocalStorage("rac:sidebar-collapsed", false);
   const location = useLocation();
 
   const [lastPathname, setLastPathname] = useState(location.pathname);
@@ -46,9 +48,15 @@ export function MainLayout({ children }: MainLayoutProps) {
         onThemeChange={setTheme}
         onOpenSearch={() => setPaletteOpen(true)}
         onToggleSidebar={() => setMobileNavOpen((open) => !open)}
+        sidebarCollapsed={sidebarCollapsed}
+        onToggleSidebarCollapse={() => setSidebarCollapsed((collapsed) => !collapsed)}
       />
       <div className={styles.body}>
-        <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
+        <Sidebar
+          mobileOpen={mobileNavOpen}
+          onCloseMobile={() => setMobileNavOpen(false)}
+          collapsed={sidebarCollapsed}
+        />
         <main id="main-content" tabIndex={-1} className={styles.content}>
           {children}
         </main>

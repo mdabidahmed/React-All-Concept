@@ -1,13 +1,23 @@
 import type { Topic } from "../../types";
+import { UseMemoCallbackDiagram } from "../../components/molecules/Diagrams/UseMemoCallbackDiagram";
 
 export const useMemoCallbackTopic: Topic = {
   id: "use-memo-callback",
   title: "useMemo & useCallback",
   category: "Performance",
-  shortExplanation:
-    "useMemo memoizes a computed value; useCallback memoizes a function reference. Both take a dependency array and only recompute when a dependency changes, mainly to avoid expensive recalculation or unnecessary child re-renders.",
-  longExplanation:
-    "useMemo(fn, deps) caches the return value of fn across renders, only recomputing it when one of deps changes; on every other render it returns the previously cached value without re-running fn. It's useful for genuinely expensive calculations (sorting/filtering large lists, heavy math) or for producing a stable object/array reference so a child wrapped in React.memo doesn't re-render unnecessarily. useCallback(fn, deps) is the same idea specialized for functions: it returns the same function reference across renders as long as deps haven't changed, which matters when that function is passed as a prop to a memoized child, or used as a dependency of another hook like useEffect. Both hooks are performance optimizations, not correctness tools — behaviorally, a component works the same with or without them, and React does not guarantee the cache is kept forever (it may be discarded, e.g. under memory pressure). The common mistake is reaching for them everywhere 'just in case': memoization itself has a cost (comparing dependencies, retaining the cache), so they pay off mainly when the wrapped computation is actually expensive or the referential stability is actually consumed by something (React.memo, a dependency array, etc.).",
+  shortExplanation: `\`useMemo\` memoizes a **computed value**; \`useCallback\` memoizes a **function reference**. Both take a dependency array and only recompute when a dependency changes — mainly to avoid ==expensive recalculation== or unnecessary child re-renders.
+
+- \`useMemo(fn, deps)\` → caches the *return value* of \`fn\`
+- \`useCallback(fn, deps)\` → caches the *function itself*
+- Unchanged deps → cached result reused; changed deps → recompute`,
+  longExplanation: `\`useMemo(fn, deps)\` caches the return value of \`fn\` across renders, only recomputing it when one of \`deps\` changes — every other render just returns the previously cached value. \`useCallback(fn, deps)\` is the same idea specialized for functions: it returns the *same function reference* across renders as long as \`deps\` haven't changed.
+
+- \`useMemo\` pays off for genuinely expensive work — sorting/filtering large lists, heavy math — or to produce a stable object/array reference so a \`React.memo\`-wrapped child doesn't re-render unnecessarily
+- \`useCallback\` matters when a function is passed as a prop to a memoized child, or used as a dependency of another hook like \`useEffect\`
+- Both are ==performance optimizations, not correctness tools== — a component behaves the same with or without them, and React doesn't guarantee the cache is kept forever (it may be discarded, e.g. under memory pressure)
+
+The common mistake is reaching for them everywhere "just in case": memoization itself has a cost — comparing dependencies, retaining the cache — so it only pays off when the wrapped computation is genuinely expensive, or the referential stability is actually consumed by something like \`React.memo\` or a dependency array.`,
+  diagram: UseMemoCallbackDiagram,
   examples: [
     {
       id: "expensive-calc",

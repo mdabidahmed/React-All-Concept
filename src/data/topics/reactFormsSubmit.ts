@@ -1,13 +1,24 @@
 import type { Topic } from "../../types";
+import { ReactFormsSubmitDiagram } from "../../components/molecules/Diagrams/ReactFormsSubmitDiagram";
 
 export const reactFormsSubmitTopic: Topic = {
   id: "react-forms-submit",
   title: "React Forms Submit",
   category: "Forms",
-  shortExplanation:
-    "Form submission belongs on the <form> element's onSubmit handler, not on the submit button's onClick, so that pressing Enter inside any field also triggers it. The handler almost always starts with event.preventDefault() to stop the browser's default full-page reload, and typically validates the data and gives the user feedback before, during, and after the submission.",
-  longExplanation:
-    "A native HTML <form> has a default behavior: submitting it (by clicking a submit button or pressing Enter in a text field) sends a request and reloads the page, which is almost never what a single-page React app wants. The fix is to attach an onSubmit handler to the <form> element itself, rather than an onClick handler to the submit button, because onSubmit fires for every way a form can be submitted — clicking the button, pressing Enter, or calling form.requestSubmit() — while a button's onClick only fires for that one button and misses the Enter-key case entirely. The very first line of a submit handler is almost always event.preventDefault(), which cancels the browser's default navigation and hands control of what happens next entirely to your JavaScript; skipping it causes the page to visibly flash and reload, wiping out component state and making it look like the app is broken even though the logic that follows would otherwise have worked fine. Once the default is prevented, a typical handler validates the current form state and bails out early (often by returning, or by setting an error message) if something is missing or malformed, so that invalid data never gets 'submitted' in the first place. Beyond validation, good forms give the user feedback about what's happening: a temporary success message once submission completes, and — especially for anything that simulates or performs a network request — a disabled submit button paired with a loading label like 'Submitting...' so users don't double-click and accidentally submit twice while a request is in flight. These are UI-state concerns exactly like any other piece of component state (a boolean isSubmitting, a string error, a boolean submitted), managed with the same useState patterns used everywhere else in React, which is what makes forms feel like a natural extension of the rest of the component model rather than a special case.",
+  shortExplanation: `Form submission belongs on the \`<form>\` element's \`onSubmit\` handler, not the submit button's \`onClick\`, so pressing *Enter* in any field also triggers it. The handler almost always opens with \`event.preventDefault()\` to stop the browser's default ==full-page reload==.
+
+- \`onSubmit\` fires for every submission path — click, Enter, or \`form.requestSubmit()\`
+- Plain \`onClick\` on the button alone misses the Enter-key case
+- After preventing the default, the handler typically **validates** the data and gives feedback before, during, and after submission`,
+  longExplanation: `A native \`<form>\` has a default behavior: submitting it — by clicking a submit button or pressing Enter in a text field — sends a request and *reloads the page*, which is almost never what a single-page React app wants.
+
+- Attach the handler to the \`<form>\`'s \`onSubmit\`, not the button's \`onClick\` — \`onSubmit\` fires for every submission path (button click, Enter key, or \`form.requestSubmit()\`), while \`onClick\` on the button alone misses the Enter-key case entirely
+- The first line is almost always \`event.preventDefault()\`, which cancels the browser's default navigation and hands control to your code — skipping it makes the page visibly flash and reload, wiping out state and making the app look broken
+- Once the default is prevented, a typical handler **validates** the current form state and bails out early (an early \`return\`, or setting an error message) so invalid data never gets "submitted"
+- Good forms also give feedback: a temporary success message once submission completes, and — especially for anything simulating or performing a network request — a disabled submit button with a loading label like *"Submitting..."* so users can't ==double-submit== while a request is in flight
+
+These are ordinary UI-state concerns — an \`isSubmitting\` boolean, an \`error\` string, a \`submitted\` boolean — managed with the same \`useState\` patterns used everywhere else, which is what makes forms feel like a natural extension of the component model rather than a special case.`,
+  diagram: ReactFormsSubmitDiagram,
   examples: [
     {
       id: "basic-onsubmit-preventdefault",

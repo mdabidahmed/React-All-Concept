@@ -1,13 +1,25 @@
 import type { Topic } from "../../types";
+import { ReactFormsDiagram } from "../../components/molecules/Diagrams/ReactFormsDiagram";
 
 export const reactFormsTopic: Topic = {
   id: "react-forms",
   title: "React Forms",
   category: "Forms",
-  shortExplanation:
-    "A controlled component is a form input whose value is driven entirely by React state: the input's value comes from state and every keystroke calls onChange to update that state, keeping React as the single source of truth. The alternative, an uncontrolled input read via a ref, lets the DOM itself hold the current value instead.",
-  longExplanation:
-    "Plain HTML form elements keep their own internal state — an <input> remembers what the user typed regardless of anything in JavaScript — but React encourages a different model called controlled components, where the input's value prop is always set from React state and the onChange handler is the only thing that ever updates that state. This creates a tight, predictable loop: state determines what's on screen, the user's keystroke fires onChange, the handler computes new state, React re-renders, and the input's value prop reflects the new state, which visually looks unchanged to the user but is now fully driven by your code. Making state the single source of truth is what enables instant validation feedback, formatting input as the user types, disabling a submit button based on current values, or resetting an entire form to its initial state with one setState call, since the displayed value can never drift out of sync with what your application logic believes is true. The alternative is an uncontrolled input, where you don't pass a value prop at all and instead read the current value out of the DOM on demand using a ref (typically inputRef.current.value), which is closer to how plain HTML forms work and involves less code, but gives up the ability to react to every keystroke and makes validation or formatting logic harder to express. Uncontrolled inputs still have legitimate uses — file inputs, for instance, can only be read this way, and very simple 'read the value once on submit' forms sometimes don't need the overhead of controlled state — but controlled components are the conventional default in React because they make the UI a pure function of state rather than a mix of DOM state and React state that can silently disagree. A common gotcha when converting an input from uncontrolled to controlled is forgetting the value prop, or passing undefined during the initial render, which triggers a console warning about switching between controlled and uncontrolled.",
+  shortExplanation: `A ==controlled component== is a form input whose value is driven entirely by React *state* — every keystroke calls \`onChange\` to update that state, keeping React as the single source of truth.
+
+- The input's \`value\` prop comes from **state**
+- \`onChange\` is the only thing that ever updates that state
+- An **uncontrolled** input (read via a \`ref\`) is the alternative — the DOM holds the value instead`,
+  longExplanation: `Plain HTML form elements keep their own internal state — an \`<input>\` remembers what the user typed regardless of anything in JavaScript. React's ==controlled components== model inverts that: the input's \`value\` prop is always set from state, and \`onChange\` is the *only* thing that ever updates it.
+
+- State determines what's on screen; a keystroke fires \`onChange\`, which computes new state and triggers a re-render — the input's value always reflects state, even though nothing visibly changes for the user beyond what they typed
+- Because the displayed value can never drift from what your code believes is true, this enables instant validation, formatting as-you-type, a submit button disabled by current values, or resetting a whole form with one \`setState\` call
+- The alternative is an **uncontrolled** input: skip \`value\` and read the current value from the DOM on demand via a \`ref\` (\`inputRef.current.value\`)
+- Uncontrolled inputs are closer to plain HTML and involve less code, but give up per-keystroke reactivity — file inputs can *only* be read this way, and very simple "read once on submit" forms sometimes don't need controlled state
+- Controlled components are the conventional default, since they make the UI a pure function of state instead of a mix of DOM state and React state that can silently disagree
+
+A common gotcha when converting an input from uncontrolled to controlled is forgetting the \`value\` prop, or passing \`undefined\` on the first render — React warns about switching between controlled and uncontrolled.`,
+  diagram: ReactFormsDiagram,
   examples: [
     {
       id: "single-controlled-input",

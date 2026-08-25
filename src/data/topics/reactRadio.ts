@@ -4,10 +4,18 @@ export const reactRadioTopic: Topic = {
   id: "react-radio",
   title: "React Radio",
   category: "Forms",
-  shortExplanation:
-    "A controlled radio group keeps one piece of state for the whole group's selected value, while every radio shares the same name and carries its own value. Each radio's checked prop is derived by comparing that shared state to its own value.",
-  longExplanation:
-    "Radio buttons are inherently a group concept — the browser only enforces mutual exclusivity among radios that share a name attribute — but React's controlled model puts the selection in exactly one place: a single state variable representing which value is currently chosen. Each <input type=\"radio\"> in the group gets the same name (so the browser groups them, and so any native fallback behavior is sane), its own distinct value, and a checked prop computed as selectedValue === thisRadio's own value; the onChange handler simply calls the setter with event.target.value. This is a subtly different shape from a controlled checkbox group, where each item tracks its own boolean — here there is exactly one 'currently selected' slot, which maps naturally onto mutually-exclusive choices like a shipping method, a subscription tier, or a size. As with selects and checkboxes, options are often generated from an array via .map(), each rendering one radio with a stable key, which keeps the group in sync with data instead of hardcoded markup. Because the selected value is ordinary state, it composes with the rest of the form exactly like any other field: it can drive conditional content elsewhere on the page (e.g. an estimated delivery date that changes with the chosen shipping method), participate in a validation check that disables a 'continue' button until something is selected, or coexist with a second, entirely independent radio group as long as the two groups use different name values — name only needs to be unique within a group, not across the whole form, and reusing it across two logically distinct choices would incorrectly merge them into one mutually-exclusive set.",
+  shortExplanation: `A controlled radio group keeps ==one piece of state== for the whole group's selected value, while every radio shares the same \`name\` and carries its own \`value\`.
+
+- Each radio's \`checked\` prop is derived by comparing shared state to its own value
+- \`onChange\` calls the setter with \`event.target.value\``,
+  longExplanation: `Radio buttons are inherently a group concept — the browser only enforces mutual exclusivity among radios sharing a \`name\` — but React's controlled model puts the selection in exactly ==one place==: a single state variable for the currently chosen value.
+
+- Every radio in the group gets the same \`name\` (so the browser groups them and native fallback behavior stays sane), its own distinct \`value\`, and a \`checked\` prop computed as \`selectedValue === thisValue\`; \`onChange\` just calls the setter with \`event.target.value\`
+- This is a subtly different shape from a controlled checkbox group, where each item tracks its *own* boolean — here there's exactly one "currently selected" slot, which maps naturally onto mutually-exclusive choices like a shipping method, a subscription tier, or a size
+- As with selects and checkboxes, options are often generated from an array via \`.map()\`, each radio rendered with a stable \`key\`, keeping the group in sync with data instead of hardcoded markup
+- As ordinary state, the selected value composes with the rest of the form: it can drive conditional content elsewhere on the page (an estimated delivery date that changes with the chosen shipping method), or disable a "continue" button until something is chosen
+
+\`name\` only needs to be unique *within* a group, not across the whole form — two independent radio groups can coexist as long as they use different \`name\` values; reusing one across two logically distinct choices would incorrectly merge them into a single mutually-exclusive set.`,
   examples: [
     {
       id: "basic-radio-group",

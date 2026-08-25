@@ -1,5 +1,6 @@
 import { Badge } from "../../atoms/Badge/Badge";
 import { Button } from "../../atoms/Button/Button";
+import { RichText } from "../../atoms/RichText/RichText";
 import { ModeToggle } from "../../molecules/ModeToggle/ModeToggle";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { useProgress } from "../../../hooks/useProgress";
@@ -19,6 +20,7 @@ export function ExplanationPanel({ topic }: ExplanationPanelProps) {
   const { isComplete, toggleComplete } = useProgress();
   const { showToast } = useToast();
   const complete = isComplete(topic.id);
+  const Diagram = topic.diagram;
 
   function handleToggleComplete() {
     toggleComplete(topic.id);
@@ -30,8 +32,14 @@ export function ExplanationPanel({ topic }: ExplanationPanelProps) {
       <div className={styles.header}>
         <div className={styles.headings}>
           <div className={styles.badgeRow}>
-            <Badge tone="accent">{topic.category}</Badge>
-            {complete && <Badge tone="success">Completed</Badge>}
+            <Badge tone="accent" className={styles.headerBadge}>
+              {topic.category}
+            </Badge>
+            {complete && (
+              <Badge tone="success" className={styles.headerBadge}>
+                Completed
+              </Badge>
+            )}
           </div>
           <h1 className={styles.title}>{topic.title}</h1>
         </div>
@@ -42,6 +50,7 @@ export function ExplanationPanel({ topic }: ExplanationPanelProps) {
             variant={complete ? "secondary" : "primary"}
             onClick={handleToggleComplete}
             aria-pressed={complete}
+            className={styles.completeButton}
           >
             {complete ? (
               <>
@@ -59,14 +68,29 @@ export function ExplanationPanel({ topic }: ExplanationPanelProps) {
                 Completed
               </>
             ) : (
-              "Mark as complete"
+              <>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+                Mark as complete
+              </>
             )}
           </Button>
         </div>
       </div>
-      <p className={styles.explanation}>
-        {mode === "short" ? topic.shortExplanation : topic.longExplanation}
-      </p>
+      <RichText
+        className={styles.explanation}
+        text={mode === "short" ? topic.shortExplanation : topic.longExplanation}
+      />
+      {Diagram && <Diagram />}
     </section>
   );
 }

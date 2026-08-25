@@ -1,13 +1,27 @@
 import type { Topic } from "../../types";
+import { UseEffectDiagram } from "../../components/molecules/Diagrams/UseEffectDiagram";
 
 export const useEffectTopic: Topic = {
   id: "use-effect",
   title: "useEffect",
   category: "Core Hooks",
-  shortExplanation:
-    "useEffect runs side effects (subscriptions, timers, fetches, DOM work) after render. It takes a function and a dependency array; the effect re-runs whenever a dependency changes, and its return value is a cleanup function.",
-  longExplanation:
-    "useEffect lets a component step outside pure rendering to synchronize with something external: the DOM, a timer, a subscription, a network request, or browser APIs. React runs the effect function after the browser has painted. The second argument, the dependency array, controls when it re-runs: omit it and the effect runs after every render; pass [] and it runs once after the initial mount; pass [a, b] and it re-runs whenever a or b changes between renders (compared with Object.is). If the effect function returns a function, React treats that as cleanup and calls it before the effect runs again and when the component unmounts — this is how you cancel a timer, close a socket, or remove an event listener. A common mistake is omitting a value the effect actually reads from its dependency array, which causes the effect to close over a stale value; the fix is almost always to include the dependency (or restructure so the effect doesn't need it). useEffect is for synchronizing with systems outside React; it is not the right tool for deriving values from props/state (a plain calculation during render is simpler and faster) or for responding to a specific user event (an event handler is more direct).",
+  shortExplanation: `\`useEffect\` runs ==side effects== (subscriptions, timers, fetches, DOM work) *after* render.
+
+- Takes a function and a **dependency array**
+- Re-runs whenever a dependency changes
+- Its return value is a **cleanup function**`,
+  longExplanation: `\`useEffect\` lets a component step outside pure rendering to *synchronize* with something external: the DOM, a timer, a subscription, a network request, or browser APIs. React runs the effect function **after the browser has painted**.
+
+The dependency array controls when it re-runs:
+
+- Omit it entirely → the effect runs **after every render**
+- Pass \`[]\` → it runs **once**, after the initial mount
+- Pass \`[a, b]\` → it re-runs whenever \`a\` or \`b\` changes (compared with \`Object.is\`)
+
+If the effect function returns a function, React treats that as ==cleanup== — calling it *before* the effect runs again, and when the component unmounts. This is how you cancel a timer, close a socket, or remove an event listener.
+
+A common mistake is omitting a value the effect actually reads from its dependency array, which causes the effect to close over a **stale value** — the fix is almost always to include the dependency. \`useEffect\` is for synchronizing with systems *outside* React; it's not the right tool for deriving values from props/state (a plain calculation during render is simpler) or for responding to a specific user event (an event handler is more direct).`,
+  diagram: UseEffectDiagram,
   examples: [
     {
       id: "document-title",

@@ -1,13 +1,25 @@
 import type { Topic } from "../../types";
+import { ReactIntroDiagram } from "../../components/molecules/Diagrams/ReactIntroDiagram";
 
 export const reactIntroTopic: Topic = {
   id: "react-intro",
   title: "React Intro",
   category: "Getting Started",
-  shortExplanation:
-    "React is a JavaScript library for building user interfaces out of small, reusable components. Instead of manually finding DOM nodes and mutating them, you describe what the UI should look like for a given state, and React figures out the DOM changes needed to match. The core mental model is: a component is a function that takes props (and internal state) and returns JSX describing the UI.",
-  longExplanation:
-    "Before React, building an interactive interface usually meant writing imperative code: find an element with document.getElementById, mutate its text or attributes, and repeat that dance every time something changed, with the burden of tracking exactly which DOM nodes needed updating falling entirely on the developer. React inverts that relationship. You write declarative UI code that says what the interface should look like right now, as a function of the current data, and React's reconciler compares that description to the previous one and applies the minimal set of real DOM changes automatically. This works because a React application is composed of components: small, self-contained, reusable functions that each own a piece of the UI and can be combined like building blocks to form an entire page. Each component receives inputs called props and can hold its own internal state; whenever either changes, React re-invokes the component function to get a fresh description of the UI and reconciles it against what's on screen. This model scales well because components are composable and independent — a button component doesn't need to know anything about the page that uses it, and a large application is just a tree of components passing data down through props and communicating changes back up through callbacks. It also makes UI code easier to reason about: since the component is 'just a function of its inputs,' the same inputs always produce the same output, which is a sharp contrast to imperative code where the current UI state depends on an unpredictable history of DOM mutations. This declarative, component-based, unidirectional-data-flow model is the foundation everything else in React — hooks, context, routing, server rendering — is built on top of.",
+  shortExplanation: `React is a JavaScript library for building user interfaces out of small, ==reusable components==. Instead of manually finding DOM nodes and mutating them, you *describe* what the UI should look like for a given state, and React figures out the DOM changes needed to match.
+
+- A **component** is a function that takes \`props\` (and internal state)
+- It returns **JSX** — a description of the UI, not the UI itself
+- React turns that description into real DOM changes for you`,
+  longExplanation: `Before React, building an interactive interface usually meant writing *imperative* code: find an element with \`document.getElementById\`, mutate its text or attributes, and repeat that dance every time something changed — with the burden of tracking exactly which DOM nodes needed updating falling entirely on the developer. React inverts that relationship: you write ==declarative== UI code that says *what* the interface should look like right now, and React's **reconciler** compares that description to the previous one and applies the minimal set of real DOM changes automatically.
+
+- **Components** are small, self-contained, reusable functions that each own a piece of the UI
+- Each component receives inputs called **props** and can hold its own internal **state**
+- Whenever props or state change, React *re-invokes* the component function to get a fresh UI description, then reconciles it against what's on screen
+- Components are composable: a button component doesn't need to know anything about the page that uses it
+- Because a component is "just a function of its inputs," the same inputs always produce the same output — unlike imperative code, where the current UI depends on an unpredictable history of DOM mutations
+
+This ==declarative, component-based, unidirectional-data-flow== model is the foundation everything else in React — hooks, context, routing, server rendering — is built on top of.`,
+  diagram: ReactIntroDiagram,
   examples: [
     {
       id: "hello-world",

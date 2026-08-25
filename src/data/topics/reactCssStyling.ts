@@ -4,10 +4,18 @@ export const reactCssStylingTopic: Topic = {
   id: "react-css-styling",
   title: "React CSS Styling",
   category: "Styling",
-  shortExplanation:
-    "React components are typically styled three ways: inline styles via the style prop (a JS object with camelCase keys), plain CSS classes via className backed by a real stylesheet, and conditionally combined class names for state-driven appearance. Each trades off dynamism, reusability, and separation of concerns differently.",
-  longExplanation:
-    "The style prop accepts a JavaScript object rather than a CSS string — properties are camelCase (backgroundColor, not background-color) and numeric values are treated as pixels unless the property is unitless-safe (like flex, opacity, or zIndex) — which makes inline styles ideal for values that are computed at render time from state or props, such as a progress bar's width or a color derived from a score, but awkward for anything that needs pseudo-classes (:hover, :focus), media queries, or reuse across many elements, since there's no selector mechanism, only per-element objects. className, by contrast, references real CSS rules defined in an actual stylesheet (usually imported at the top of a component file in a real project), which is where pseudo-classes, animations, and shared rules belong, and it's generally the better default for static or rarely-changing styling; the tradeoff is that the connection between a class name and its rules is implicit — you have to go find the CSS to know what a class does. In practice, real applications combine both: className for the baseline look and structural styling, style for values that genuinely depend on runtime state, and conditionally-built class strings (join together only the classes that are currently 'true', e.g. an 'active' class only when a tab is selected) to express state-driven variation without inline style objects. This file's examples run inside a sandbox with no real stylesheet import available, so global CSS is demonstrated by injecting a <style> tag from a component instead of the normal import — a stand-in for what would be a separate .css file in an actual project — and hover/focus effects are simulated with onMouseEnter/onMouseLeave state toggling, since real :hover requires real CSS.",
+  shortExplanation: `React components are typically styled three ways: **inline styles** via the \`style\` prop, plain CSS classes via \`className\`, and *conditionally* combined class names for state-driven appearance.
+
+- \`style\` takes a JS object with ==camelCase== keys (\`backgroundColor\`, not \`background-color\`)
+- \`className\` references real CSS rules in an actual stylesheet
+- Each approach trades off dynamism, reusability, and separation of concerns differently`,
+  longExplanation: `The \`style\` prop accepts a JavaScript object rather than a CSS string — properties are camelCase (\`backgroundColor\`, not \`background-color\`) and numeric values are treated as pixels unless the property is unitless-safe (like \`flex\`, \`opacity\`, or \`zIndex\`). That makes inline styles ideal for values *computed at render time* from state or props — a progress bar's width, a color derived from a score — but awkward for anything needing pseudo-classes (\`:hover\`, \`:focus\`), media queries, or reuse across elements, since there's no selector mechanism, only per-element objects.
+
+- \`className\` references real CSS rules in an actual stylesheet, which is where pseudo-classes, animations, and shared rules belong — generally the better default for static or rarely-changing styling
+- The tradeoff: the connection between a class name and its rules is ==implicit== — you have to go find the CSS to know what a class does
+- Real apps combine both: \`className\` for baseline/structural styling, \`style\` for values that genuinely depend on runtime state, and *conditionally-built* class strings (joining only the classes currently "true") to express state-driven variation
+
+This sandbox has no real stylesheet import available, so global CSS is demonstrated by injecting a \`<style>\` tag from a component instead of the normal import — a stand-in for what would be a separate \`.css\` file in an actual project — and hover/focus effects are simulated with \`onMouseEnter\`/\`onMouseLeave\` state toggling, since real \`:hover\` requires real CSS.`,
   examples: [
     {
       id: "inline-dynamic",

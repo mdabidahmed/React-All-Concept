@@ -1,13 +1,23 @@
 import type { Topic } from "../../types";
+import { ReactTransitionsDiagram } from "../../components/molecules/Diagrams/ReactTransitionsDiagram";
 
 export const reactTransitionsTopic: Topic = {
   id: "react-transitions",
   title: "React Transitions",
   category: "Routing & Motion",
-  shortExplanation:
-    "Animating an element as it enters or leaves the DOM requires keeping it mounted a beat longer than the state that wants it gone, because plain conditional rendering removes elements instantly with no time for a CSS transition to play. The general technique is a short delay (via setTimeout, or toggling a class one frame apart from visibility) around the actual mount/unmount.",
-  longExplanation:
-    "When a component is removed by conditional rendering (isOpen && <Panel />) it disappears from the DOM in the same render that the condition flips, which means a CSS `transition` on that element never gets a chance to animate — the browser has nothing to interpolate between because the element is simply gone. The general workaround is to decouple 'should this be visible' from 'should this be mounted': keep a second, slightly-delayed piece of state that controls whether the element stays in the DOM, and use the immediate state only to toggle a CSS class or style value (like opacity or transform) that the browser can transition. Entering is the easier direction — mount the element, then flip a 'entered' class on in a useEffect (typically after a tiny setTimeout, or in a follow-up frame) so the browser sees the 'before' state before the 'after' state and animates between them; without that separation, an element that's born already fully visible has nothing to transition from. Exiting is the harder direction — you have to trigger the CSS change first (opacity to 0, scale to 0.9, etc.) and only actually remove the element from the tree after the transition's duration has elapsed, usually via a matching setTimeout or by listening for the transitionend event. Dedicated libraries exist specifically to manage this bookkeeping for you in a real project — React Transition Group provides `<CSSTransition>`/`<TransitionGroup>` components built exactly around this enter/exit lifecycle, and Framer Motion offers a higher-level, spring-based animation API with its own exit-animation support via `AnimatePresence` — but the underlying mechanism in both cases is the same delayed-mount/delayed-unmount technique demonstrated by hand here, so understanding it makes those libraries' APIs much less mysterious.",
+  shortExplanation: `Animating an element as it enters or leaves the DOM requires keeping it mounted a beat longer than the state that wants it gone, because plain conditional rendering removes elements ==instantly== — with no time for a CSS transition to play.
+
+- The general technique is a short *delay* around the actual mount/unmount
+- Typically via \`setTimeout\`, or toggling a class one frame apart from visibility
+- This gives the browser a "before" state and an "after" state to animate between`,
+  longExplanation: `When a component is removed by conditional rendering (\`isOpen && <Panel />\`) it disappears from the DOM in the same render that the condition flips, so a CSS \`transition\` on that element never gets a chance to animate — the browser has nothing to interpolate between because the element is simply gone. The general workaround is to decouple "should this be visible" from "should this be mounted": keep a second, slightly-delayed piece of state controlling whether the element stays in the DOM, and use the immediate state only to toggle a CSS class or style value (like opacity or transform) that the browser can transition.
+
+- **Entering** is the easier direction — mount the element, then flip an "entered" class on in a \`useEffect\` (typically after a tiny \`setTimeout\`, or a follow-up frame) so the browser sees the *before* state before the *after* state; without that separation, an element born already fully visible has nothing to transition from
+- **Exiting** is the harder direction — trigger the CSS change first (opacity to 0, scale to 0.9), and only actually remove the element from the tree after the transition's duration has elapsed, usually via a matching \`setTimeout\` or by listening for the \`transitionend\` event
+- Dedicated libraries manage this bookkeeping in a real project: React Transition Group provides \`<CSSTransition>\`/\`<TransitionGroup>\` built around this enter/exit lifecycle, and Framer Motion offers a spring-based API with its own exit-animation support via \`AnimatePresence\`
+
+The underlying mechanism in both libraries is the same ==delayed-mount/delayed-unmount== technique demonstrated by hand here, so understanding it makes those libraries' APIs much less mysterious.`,
+  diagram: ReactTransitionsDiagram,
   examples: [
     {
       id: "fade-in-on-mount",

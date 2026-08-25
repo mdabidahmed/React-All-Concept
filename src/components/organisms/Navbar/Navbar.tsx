@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import type { MouseEvent } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "../../molecules/ThemeToggle/ThemeToggle";
+import { ProgressMenu } from "../../molecules/ProgressMenu/ProgressMenu";
 import { IconButton } from "../../atoms/IconButton/IconButton";
+import { useConfirm } from "../../../hooks/useConfirm";
+import { useQuizSession } from "../../../hooks/useQuizSession";
 import type { Theme } from "../../../hooks/useTheme";
 import styles from "./Navbar.module.css";
 
@@ -9,9 +13,35 @@ interface NavbarProps {
   onThemeChange: (theme: Theme) => void;
   onOpenSearch: () => void;
   onToggleSidebar: () => void;
+  sidebarCollapsed: boolean;
+  onToggleSidebarCollapse: () => void;
 }
 
-export function Navbar({ theme, onThemeChange, onOpenSearch, onToggleSidebar }: NavbarProps) {
+export function Navbar({
+  theme,
+  onThemeChange,
+  onOpenSearch,
+  onToggleSidebar,
+  sidebarCollapsed,
+  onToggleSidebarCollapse,
+}: NavbarProps) {
+  const navigate = useNavigate();
+  const { inProgress, endActiveTest } = useQuizSession();
+  const confirm = useConfirm();
+
+  async function handleQuizNavClick(e: MouseEvent) {
+    if (!inProgress) return;
+    e.preventDefault();
+    const confirmed = await confirm({
+      title: "Quiz in progress",
+      message: "End the current test before leaving? Unanswered questions will count as incorrect.",
+      confirmLabel: "End test",
+    });
+    if (!confirmed) return;
+    endActiveTest();
+    navigate("/quiz");
+  }
+
   return (
     <header className={styles.navbar}>
       <div className={styles.left}>
@@ -29,6 +59,26 @@ export function Navbar({ theme, onThemeChange, onOpenSearch, onToggleSidebar }: 
           <span className={styles.logo}>⚛</span>
           <span className={styles.brandText}>React All Concepts</span>
         </Link>
+        <IconButton
+          label={sidebarCollapsed ? "Expand topics sidebar" : "Collapse topics sidebar"}
+          className={styles.sidebarToggle}
+          onClick={onToggleSidebarCollapse}
+          aria-pressed={sidebarCollapsed}
+        >
+          <svg
+            className={sidebarCollapsed ? styles.sidebarToggleIconCollapsed : ""}
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            aria-hidden="true"
+          >
+            <path d="M11 6l-6 6 6 6" />
+            <path d="M18 6l-6 6 6 6" />
+          </svg>
+        </IconButton>
       </div>
 
       <div className={styles.right}>
@@ -40,6 +90,20 @@ export function Navbar({ theme, onThemeChange, onOpenSearch, onToggleSidebar }: 
           <span className={styles.searchText}>Search topics</span>
           <kbd className={styles.kbd}>⌘K</kbd>
         </button>
+        <NavLink
+          to="/quiz"
+          onClick={handleQuizNavClick}
+          className={({ isActive }) =>
+            [styles.quizLink, isActive ? styles.quizLinkActive : ""].join(" ")
+          }
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 15a5 5 0 0 0 5-5V4H7v6a5 5 0 0 0 5 5Z" />
+            <path d="M7 5H4v1a4 4 0 0 0 4 4M17 5h3v1a4 4 0 0 1-4 4M12 15v3m-3 3h6" />
+          </svg>
+          <span className={styles.quizText}>Quiz</span>
+        </NavLink>
+        <ProgressMenu />
         <ThemeToggle theme={theme} onChange={onThemeChange} />
         <a
           className={styles.repoLink}

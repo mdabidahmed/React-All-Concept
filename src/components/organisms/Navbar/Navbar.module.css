@@ -41,6 +41,16 @@
   display: inline-block;
 }
 
+.sidebarToggle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.sidebarToggleIconCollapsed {
+  transform: rotate(180deg);
+}
+
 .right {
   display: flex;
   align-items: center;
@@ -51,15 +61,27 @@
 .searchTrigger {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: 6px 8px 6px 10px;
-  border-radius: var(--radius-sm);
+  gap: var(--space-3);
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: var(--bg-subtle);
   color: var(--text-muted);
   cursor: pointer;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   transition: border-color 150ms ease, color 150ms ease;
+}
+
+.searchTrigger svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.searchText {
+  flex: 1;
+  text-align: left;
 }
 
 .searchTrigger:hover {
@@ -77,13 +99,43 @@
   color: var(--text-muted);
 }
 
+.quizLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--accent-strong);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.quizLink:hover {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.quizLinkActive {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
 .repoLink {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
   font-size: 0.85rem;
   color: var(--text-muted);
   text-decoration: none;
   border: 1px solid var(--border);
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
+  padding: 0 16px;
+  border-radius: var(--radius-md);
   white-space: nowrap;
   transition: border-color 150ms ease, color 150ms ease;
 }
@@ -96,6 +148,16 @@
 @media (max-width: 900px) {
   .menuButton {
     display: inline-flex;
+  }
+
+  .sidebarToggle {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .searchTrigger {
+    min-width: 260px;
   }
 }
 
@@ -110,5 +172,13 @@
 
   .repoLink {
     display: none;
+  }
+
+  .quizText {
+    display: none;
+  }
+
+  .quizLink {
+    padding: 0 10px;
   }
 }

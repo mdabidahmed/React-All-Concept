@@ -1,0 +1,135 @@
+.root {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.86rem;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.trigger:hover {
+  border-color: var(--accent-border);
+  color: var(--text-h);
+}
+
+.trigger[aria-expanded="true"] {
+  border-color: var(--accent-border);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.triggerText {
+  white-space: nowrap;
+}
+
+.ringWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 2;
+}
+
+.ringFill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 300ms var(--ease-out);
+}
+
+.trophyIcon {
+  position: relative;
+  color: var(--accent);
+}
+
+.chevron {
+  color: var(--text-muted);
+  transition: transform 150ms var(--ease-out);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: 260px;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-md);
+  animation: fade-in-up 160ms var(--ease-out);
+}
+
+.arrow {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: var(--bg-elevated);
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.summary {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-h);
+}
+
+.message {
+  margin-top: 2px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .triggerText {
+    display: none;
+  }
+
+  .panel {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
+  .arrow {
+    left: auto;
+    right: 16px;
+    transform: rotate(45deg);
+  }
+}

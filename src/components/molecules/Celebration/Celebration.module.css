@@ -1,0 +1,42 @@
+.field {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ribbon {
+  position: absolute;
+  top: -40px;
+  width: 8px;
+  height: 16px;
+  border-radius: 2px;
+  opacity: 0.95;
+  animation-name: ribbon-fall;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+.ribbon.wide {
+  width: 6px;
+  height: 22px;
+}
+
+@keyframes ribbon-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(540deg);
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon {
+    animation: none;
+    display: none;
+  }
+}

@@ -4,10 +4,21 @@ export const reactConditionalsTopic: Topic = {
   id: "react-conditionals",
   title: "React Conditionals",
   category: "Components",
-  shortExplanation:
-    "Conditional rendering decides which UI a component shows, or whether it shows anything at all, using ordinary JavaScript — ternaries, &&, early returns, or a variable holding JSX. Returning null from a component renders nothing to the DOM, which is the standard way to make a piece of UI optionally disappear.",
-  longExplanation:
-    "React has no special 'if' syntax in JSX; instead, conditional rendering is just JavaScript deciding what value a component's render logic produces, and the four idioms that cover almost every case are the ternary operator (condition ? <A /> : <B />) for a clean two-way branch, the && operator (condition && <A />) for rendering something or nothing at all, an early return at the top of the component body for guard clauses, and building up a variable that holds a piece of JSX before the final return, useful once the logic gets too branchy for a one-liner. A component is allowed to return null, and React treats that as 'render nothing here' — no DOM node is created — which is the idiomatic way to make a component conditionally invisible without wrapping every usage of it in a conditional at the call site. A frequent pitfall with && is that if the left-hand value is a number like 0, React renders the literal '0' to the screen instead of nothing, since 0 is falsy but still a renderable value — the fix is to coerce it to a boolean (count > 0 && ...) or use a ternary instead. For UIs with more than two states — a status badge, a loading/error/success flow, a multi-step wizard — a lookup object keyed by state or an if/else-if chain scales better than nested ternaries, which quickly become unreadable past one level of nesting. These patterns compose naturally with lists: each item in a rendered array can independently decide its own appearance based on a field on that item, which is how checklists, notification badges, and per-row conditional styling are typically implemented. Conditional rendering is a normal part of every re-render — there's no separate 'update' step to think about, React simply re-evaluates the same logic with the latest state or props.",
+  shortExplanation: `Conditional rendering decides which UI a component shows — or whether it shows anything at all — using ordinary JavaScript, no special syntax required.
+
+- **Ternary** (\`cond ? <A/> : <B/>\`) for a clean two-way branch
+- **\`&&\`** (\`cond && <A/>\`) for rendering something or nothing
+- Returning \`null\` from a component renders ==nothing== to the DOM — the standard way to make UI optionally disappear`,
+  longExplanation: `React has no special \`if\` syntax inside JSX — conditional rendering is just ordinary JavaScript deciding what value a component's render logic produces.
+
+- **Ternary** — \`condition ? <A /> : <B />\` — for a clean two-way branch
+- **\`&&\`** — \`condition && <A />\` — for rendering something or nothing at all
+- An **early return** at the top of the component body, for guard clauses
+- A variable built up to hold a piece of JSX before the final \`return\`, once the logic gets too branchy for a one-liner
+
+A component is allowed to return \`null\`, which renders ==nothing== to the DOM at all — the idiomatic way to make a component conditionally invisible without wrapping every call site in a conditional. A frequent \`&&\` pitfall: if the left-hand value is a number like \`0\`, React renders the literal \`'0'\` instead of nothing, since \`0\` is falsy but still a renderable value — fix it by coercing to a boolean (\`count > 0 && ...\`) or switching to a ternary.
+
+For more than two states — a status badge, a loading/error/success flow — a lookup object keyed by state scales better than nested ternaries, which get unreadable past one level. These patterns compose naturally with lists too: each rendered item can independently decide its own appearance from a field on itself, and since conditional rendering is just part of every render, there's no separate "update" step to think about — React simply re-evaluates the same logic with the latest state or props.`,
   examples: [
     {
       id: "component-returns-null",

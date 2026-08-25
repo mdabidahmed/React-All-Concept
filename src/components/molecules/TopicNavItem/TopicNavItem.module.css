@@ -46,16 +46,3 @@
   white-space: nowrap;
 }
 
-.count {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  background: var(--bg-subtle);
-  border-radius: 999px;
-  padding: 1px 7px;
-  flex-shrink: 0;
-}
-
-.item.active .count {
-  color: var(--accent);
-  background: var(--bg-elevated);
-}

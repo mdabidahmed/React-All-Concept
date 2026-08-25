@@ -1,13 +1,25 @@
 import type { Topic } from "../../types";
+import { ReactPropsDiagram } from "../../components/molecules/Diagrams/ReactPropsDiagram";
 
 export const reactPropsTopic: Topic = {
   id: "react-props",
   title: "React Props",
   category: "Components",
-  shortExplanation:
-    "Props ('properties') are the read-only inputs a parent component passes to a child, written as JSX attributes and received as the child function's argument object. They're how a reusable component gets configured for a particular usage, and they flow strictly one way — down the component tree, from parent to child, never back up on their own.",
-  longExplanation:
-    "Props are React's mechanism for turning a component from a fixed, hardcoded template into something reusable: instead of writing a dozen near-identical Button components, you write one Button that accepts props like label and color and reads them out of its function argument to decide what to render. A prop can be any JavaScript value — a string, number, boolean, array, object, or even another function or component — and the parent supplies it exactly like an HTML attribute, <Widget size={40} onSave={handleSave} />, which React collects into a single object and passes as the first argument to the Widget function. The single most important rule about props is that they are read-only from the receiving component's point of view: a component must never reassign or mutate the props object it was given, because that object may be shared, memoized, or compared by reference elsewhere in React's rendering logic, and mutating it silently breaks those assumptions without necessarily throwing an error. If a component needs to change what's displayed over time, that changing value belongs in state, not in a mutated prop — and if a piece of state needs to be shared between components, the usual move is to lift it up to their closest common ancestor and pass it down to both as props. This top-down flow is also what makes callback props so central to React: since data can't flow back up the tree automatically, a child that needs to notify its parent of something (a click, a selection, a value change) does so by calling a function the parent passed down as a prop, such as onSelect or onChange — the parent owns the state, and the child just reports events into it. The result is a strictly unidirectional data flow that makes big applications easier to reason about: given a component's props (and its own local state), you can always predict what it renders, without needing to know anything about siblings or worry about hidden two-way bindings.",
+  shortExplanation: `Props ("properties") are the ==read-only== inputs a parent passes down to a child component, written as JSX attributes and received as the child function's argument object.
+
+- Any JS value can be a prop: string, number, boolean, array, object, even a function
+- Props configure a *reusable* component for one particular usage
+- Data flows **one way only** — down the tree, parent to child, never back up on its own`,
+  longExplanation: `Props are how a component becomes reusable instead of a hardcoded template: a single \`Button\` can accept \`label\` and \`color\` props and decide what to render from its function argument, rather than needing a dozen near-identical copies.
+
+- A prop can be **any JavaScript value** — string, number, boolean, array, object, even a function or another component
+- The parent supplies props like HTML attributes; React collects them into a single object and passes it as the child's first argument
+- Props are strictly **read-only**: a component must never reassign or mutate the props object it received, since that object may be shared or compared by reference elsewhere in React
+- A value that changes over time belongs in *state*, not a mutated prop; state shared between siblings should be *lifted up* to their closest common ancestor and passed down to both
+- A child reports events back up via **callback props** (\`onSelect\`, \`onChange\`) — the parent owns the state, the child just calls the function it was given
+
+The result is a strictly ==unidirectional data flow==: given a component's props and its own state, you can always predict what it renders, without needing to know anything about its siblings or worry about hidden two-way bindings.`,
+  diagram: ReactPropsDiagram,
   examples: [
     {
       id: "basic-prop-passing",

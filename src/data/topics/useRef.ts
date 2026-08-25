@@ -1,13 +1,22 @@
 import type { Topic } from "../../types";
+import { UseRefDiagram } from "../../components/molecules/Diagrams/UseRefDiagram";
 
 export const useRefTopic: Topic = {
   id: "use-ref",
   title: "useRef",
   category: "Core Hooks",
-  shortExplanation:
-    "useRef returns a mutable { current } object that persists for the lifetime of the component. Changing .current does not trigger a re-render, which makes it ideal for DOM references and for values you need to remember without redrawing the UI.",
-  longExplanation:
-    "useRef(initialValue) returns a plain object with a single mutable property, current, initialized to initialValue. That object is the same object on every render of the component — React never recreates it — so it's a place to stash a value that needs to survive re-renders but, unlike state, updating it does not schedule a re-render and reading it does not participate in rendering. There are two common uses. First, DOM refs: pass a ref to a JSX element's ref attribute (e.g. <input ref={inputRef} />) and after the DOM has been committed, inputRef.current points at the actual DOM node, letting you call imperative APIs like .focus(), .scrollIntoView(), or measure its size — things React's declarative model doesn't cover. Second, mutable instance variables: storing a timer ID to clear later, tracking whether a component is still mounted, counting renders for debugging, or caching a previous value (often via a small custom hook like usePrevious) — anywhere you'd reach for an instance field in a class component. The key mental model: state is for values that affect what's rendered; refs are for values that don't.",
+  shortExplanation: `\`useRef\` returns a mutable \`{ current }\` object that persists for the lifetime of the component. Changing \`.current\` ==never triggers a re-render==, which makes it ideal for DOM references and values you need to remember without redrawing the UI.
+
+- \`useRef(initial)\` returns the *same object* on every render
+- Mutate \`.current\` directly — reads and writes don't schedule updates
+- Common uses: **DOM node references** and mutable instance-style values`,
+  longExplanation: `\`useRef(initialValue)\` returns a plain object with a single mutable property, \`current\`, initialized to \`initialValue\`. That object is the *same object* on every render — React never recreates it — so it's a place to stash a value that needs to survive re-renders, but unlike state, updating it doesn't schedule a re-render and reading it doesn't participate in rendering.
+
+- **DOM refs**: pass a ref to an element's \`ref\` attribute (\`<input ref={inputRef} />\`); once the DOM is committed, \`inputRef.current\` points at the real node, letting you call imperative APIs like \`.focus()\`, \`.scrollIntoView()\`, or measure its size — things React's declarative model doesn't cover
+- **Mutable instance variables**: a timer ID to clear later, whether the component is still mounted, a render counter for debugging, or a cached previous value (often via a small custom hook like \`usePrevious\`) — anywhere you'd reach for an instance field in a class component
+
+The key mental model: ==state is for values that affect what's rendered==; refs are for values that don't.`,
+  diagram: UseRefDiagram,
   examples: [
     {
       id: "focus-input",

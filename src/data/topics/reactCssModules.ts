@@ -4,10 +4,18 @@ export const reactCssModulesTopic: Topic = {
   id: "react-css-modules",
   title: "React CSS Modules",
   category: "Styling",
-  shortExplanation:
-    "CSS Modules (files named Component.module.css) let you write normal-looking class names that the build tool automatically rewrites into unique, collision-proof class names per file, imported as a JS object and used like className={styles.button}. This is the pattern this very app's own components use for their styling.",
-  longExplanation:
-    "In a real build setup, a file named something like Button.module.css is treated specially: instead of the class names inside it being global (visible and overridable from anywhere in the app), the bundler rewrites each class name into a unique generated string (e.g. .button becomes .button_a1b2c3) and hands you back a JS object mapping your original, readable names to those generated ones, so import styles from './Button.module.css' followed by className={styles.button} produces markup with the scoped name while your source code still reads naturally. This solves a real, common problem with plain global CSS: two components that both define a .title or .card rule will silently clash, with whichever stylesheet loads last winning, and large codebases end up inventing prefixing conventions (BEM, etc.) by hand just to avoid this; CSS Modules make that isolation automatic and scoped to the file, so a .title in one component's module can never leak into or be overridden by a .title in another. It's a build-time transformation, not a runtime feature, so the sandbox here can't import a real .module.css file (there's no bundler running the transform); instead, these examples simulate the effect with a plain JS object mapping logical names to already-unique class strings (const styles = { button: 'button_a1b2c3' }), paired with a matching injected <style> tag, to demonstrate exactly what the generated object and scoped class names look like once the real tool has processed a module file — this is the same underlying pattern the CSS files in this app's own src/components directory rely on.",
+  shortExplanation: `**CSS Modules** (files named \`Component.module.css\`) let you write normal-looking class names that the build tool rewrites into unique, ==collision-proof== names per file.
+
+- Imported as a JS object: \`import styles from './Button.module.css'\`
+- Used like \`className={styles.button}\`
+- This is the exact pattern this app's own components use for their styling`,
+  longExplanation: `In a real build setup, a file named \`Button.module.css\` is treated specially: instead of its class names being global, the bundler rewrites each one into a unique generated string (\`.button\` becomes \`.button_a1b2c3\`) and hands back a JS object mapping your original, readable names to those generated ones — \`import styles from './Button.module.css'\` plus \`className={styles.button}\` produces markup with the scoped name while your source code still reads naturally.
+
+- This solves a real, common problem with plain global CSS: two components that both define a \`.title\` rule will silently clash, with whichever stylesheet loads last winning
+- Large codebases used to invent prefixing conventions (like BEM) by hand just to avoid this; CSS Modules make the isolation ==automatic== and scoped to the file
+- A \`.title\` in one component's module can never leak into or be overridden by a \`.title\` in another
+
+It's a *build-time* transformation, not a runtime feature, so this sandbox can't import a real \`.module.css\` file — there's no bundler running the transform. These examples instead simulate the effect with a plain JS object mapping logical names to already-unique class strings (\`const styles = { button: 'button_a1b2c3' }\`), paired with a matching injected \`<style>\` tag, to demonstrate exactly what the generated object and scoped class names look like once the real tool has processed a module file — the same underlying pattern the CSS files in this app's own \`src/components\` directory rely on.`,
   examples: [
     {
       id: "styles-object-basic",

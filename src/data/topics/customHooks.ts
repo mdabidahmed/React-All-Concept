@@ -1,13 +1,22 @@
 import type { Topic } from "../../types";
+import { CustomHooksDiagram } from "../../components/molecules/Diagrams/CustomHooksDiagram";
 
 export const customHooksTopic: Topic = {
   id: "custom-hooks",
   title: "Custom Hooks",
   category: "Composition",
-  shortExplanation:
-    "A custom hook is just a JavaScript function whose name starts with 'use' and that calls other hooks inside it. It lets you extract and reuse stateful logic between components without changing the component tree.",
-  longExplanation:
-    "React components already share non-stateful logic through plain functions and share UI through composition (children, props). What was historically hard to share was stateful logic — a piece of behavior built out of useState/useEffect/etc. Custom hooks solve this: any function that calls one or more built-in hooks and whose name starts with 'use' is a custom hook, and React's rules of hooks (only call at the top level, only call from React functions) apply to it the same way. Extracting a custom hook doesn't share state itself — each component that calls useMyHook() gets its own independent state — it shares the logic and the shape of that state. This is the idiomatic replacement for older patterns like higher-order components and render props: a useFetch(url) hook, a useLocalStorage(key) hook, a useDebounce(value) hook, etc. Good custom hooks have a clear, small contract (what you pass in, what you get back), hide implementation details (which underlying hooks it uses), and are named for what they do, not how they do it.",
+  shortExplanation: `A custom hook is just a JavaScript function whose name starts with \`use\` and that calls other hooks inside it. It lets you ==extract and reuse stateful logic== between components without changing the component tree.
+
+- Same rules as built-in hooks: call it at the *top level*, only from components or other hooks
+- Each call gets its **own independent state** — sharing logic isn't sharing state`,
+  longExplanation: `React components already share non-stateful logic through plain functions, and share UI through composition (children, props). What was historically hard to share was **stateful logic** — a piece of behavior built out of \`useState\`, \`useEffect\`, and friends. Custom hooks solve this: any function that calls one or more built-in hooks and whose name starts with \`use\` *is* a custom hook, and React's rules of hooks apply to it the same way — only call at the top level, only call from React functions.
+
+- Extracting a custom hook doesn't share *state* itself — each component calling \`useMyHook()\` gets its own independent state
+- What it shares is the **logic** and the *shape* of that state
+- It's the idiomatic replacement for older patterns like higher-order components and render props — think \`useFetch(url)\`, \`useLocalStorage(key)\`, \`useDebounce(value)\`
+
+Good custom hooks have a small, clear contract — what you pass in, what you get back — hide *which* underlying hooks they use, and are ==named for what they do, not how they do it==.`,
+  diagram: CustomHooksDiagram,
   examples: [
     {
       id: "use-toggle",

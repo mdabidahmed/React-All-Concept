@@ -4,10 +4,18 @@ export const reactCheckboxTopic: Topic = {
   id: "react-checkbox",
   title: "React Checkbox",
   category: "Forms",
-  shortExplanation:
-    "A controlled checkbox is driven by a boolean checked prop instead of value, paired with an onChange handler that reads event.target.checked. The same boolean-toggle idea extends to groups of checkboxes backed by an array of selected ids.",
-  longExplanation:
-    "Checkboxes differ from text-like inputs in which prop React uses to control them: a checkbox's on/off state is expressed with checked (a boolean), not value, and its change handler reads event.target.checked rather than event.target.value. Passing checked without onChange produces the familiar read-only-input warning and an unresponsive box, exactly as with any other controlled field. A single checkbox typically toggles one boolean in state, often used to conditionally render another piece of UI (show/hide a section, enable/disable a button). Groups of checkboxes introduce the classic parent/children pattern — a top-level 'select all' checkbox alongside individual item checkboxes — where the parent's checked state is derived from whether every child is currently checked, and toggling the parent sets every child at once; a fully accurate implementation would also set the DOM node's indeterminate property (via a ref, since there is no indeterminate prop) to represent a partial selection, though many apps simplify this to a plain fully-checked/not-fully-checked boolean. A very common shape for a checkbox list is an array of selected ids: instead of one state variable per item, a single array (or Set) holds the ids that are currently checked, and each checkbox's checked prop is computed by testing membership (selectedIds.includes(id)), while its onChange adds or removes that id from the array. This same array-of-objects-with-a-checked-flag pattern is exactly what powers todo-list-style UIs, where toggling one item's done flag is an immutable map over the array rather than a mutation.",
+  shortExplanation: `A controlled checkbox is driven by a boolean \`checked\` prop instead of \`value\`, paired with an \`onChange\` handler that reads \`event.target.checked\`.
+
+- One checkbox toggles one boolean in state
+- The same ==toggle== idea extends to a *group* of checkboxes backed by an array of selected ids`,
+  longExplanation: `Checkboxes differ from text-like inputs in which prop React uses to control them: on/off state is expressed with \`checked\` (a boolean), not \`value\`, and the change handler reads \`event.target.checked\` rather than \`event.target.value\`. Passing \`checked\` without \`onChange\` produces the same read-only-input warning and unresponsive box as any other controlled field.
+
+- A **single checkbox** typically toggles one boolean, often used to conditionally show or hide UI, or enable/disable a button
+- A **group** of checkboxes introduces the parent/children "select all" pattern: the parent's \`checked\` is derived from whether *every* child is currently checked, and toggling it sets every child at once
+- A fully accurate "select all" would also set the DOM node's \`indeterminate\` property (via a \`ref\` — there's no \`indeterminate\` prop) to represent a partial selection, though many apps simplify this to a plain fully-checked/not boolean
+- A common shape for a checkbox list is an array of selected ids: one array (or Set) holds the currently checked ids, each checkbox's \`checked\` prop tests membership (\`selectedIds.includes(id)\`), and \`onChange\` adds or removes that id
+
+This same ==array-of-objects-with-a-flag== pattern is exactly what powers todo-list-style UIs, where toggling one item's \`done\` flag is an *immutable* map over the array rather than a mutation.`,
   examples: [
     {
       id: "single-controlled-checkbox",

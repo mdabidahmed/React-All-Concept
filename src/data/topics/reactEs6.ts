@@ -4,10 +4,22 @@ export const reactEs6Topic: Topic = {
   id: "react-es6",
   title: "React ES6",
   category: "Getting Started",
-  shortExplanation:
-    "React code leans heavily on modern JavaScript (ES6 and later): let/const for block-scoped variables, arrow functions and template literals for concise inline logic, destructuring and default parameters for pulling values out of props/state, and spread/rest syntax for copying and combining arrays and objects immutably. Array methods like map, filter, and find are how you turn data into rendered JSX and derived lists.",
-  longExplanation:
-    "React itself is 'just JavaScript,' but the JavaScript it's written in is almost always modern ES6-and-later syntax, and a lot of what looks like React-specific magic is really plain language features applied consistently. let and const replaced var to give block scoping and, for const, protection against reassignment, which matters in React because props and the destructured values from a hook call are conventionally declared const. Arrow functions are everywhere — as inline event handlers (onClick={() => setCount(c => c + 1)}), as the bodies of function components themselves, and inside array methods — largely because their concise syntax and lack of their own this binding make them ideal for the short callbacks React code is full of. Template literals (backtick strings with ${expr} interpolation) replace clunky string concatenation for building dynamic text, class names, or keys. Destructuring is how props are almost always read (function Card({ title, onClose })) and how a hook's return value is unpacked (const [value, setValue] = useState(...)), and it supports default values inline (function Card({ title = 'Untitled' })) which doubles as a lightweight way to define optional props. The spread operator ({ ...prev, age: prev.age + 1 } or [...items, newItem]) is the idiomatic way to update state immutably: React compares object references to decide whether to re-render, so mutating an existing object or array in place would not reliably trigger updates, while spreading into a new object or array does. The same syntax used as rest parameters collects the remaining arguments or properties (const { id, ...rest } = props) which is common when forwarding most props through to an underlying element. Finally, the array methods map, filter, and find are the standard way to go from a data array to a list of JSX elements, a filtered subset, or a single matching item, and understanding them well is arguably more important to comfortable React development than memorizing any single hook.",
+  shortExplanation: `React code leans heavily on modern JavaScript (==ES6== and later) rather than anything React-specific.
+
+- \`let\`/\`const\` for block-scoped variables
+- **Arrow functions** and template literals for concise inline logic
+- **Destructuring** and default parameters for pulling values out of props/state
+- Spread/rest syntax for copying and combining arrays and objects *immutably*
+- Array methods like \`map\`, \`filter\`, and \`find\` turn data into rendered JSX and derived lists`,
+  longExplanation: `React itself is "just JavaScript," but the JavaScript it's written in is almost always modern ES6-and-later syntax — a lot of what looks like React-specific magic is really plain language features applied consistently.
+
+- \`let\` and \`const\` replaced \`var\` for block scoping; \`const\` matters in React because props and destructured hook values are conventionally declared with it
+- **Arrow functions** are everywhere — inline event handlers, component bodies, array-method callbacks — because their concise syntax and lack of their own \`this\` binding suit React's short callbacks
+- *Template literals* (backtick strings with \`\${expr}\` interpolation) replace string concatenation for dynamic text, class names, or keys
+- **Destructuring** is how props are almost always read (\`function Card({ title, onClose })\`) and how a hook's return value is unpacked (\`const [value, setValue] = useState(...)\`); it supports default values inline, which doubles as a lightweight way to define optional props
+- The **spread operator** (\`{ ...prev, age: prev.age + 1 }\`) is the idiomatic way to update state ==immutably== — React compares object references to decide whether to re-render, so mutating in place wouldn't reliably trigger an update, while spreading into a new object or array does
+- The same syntax as *rest parameters* collects remaining properties (\`const { id, ...rest } = props\`), common when forwarding most props to an underlying element
+- Array methods \`map\`, \`filter\`, and \`find\` are the standard way to turn a data array into a list of JSX elements, a filtered subset, or a single matching item — understanding them well is arguably more important than memorizing any single hook`,
   examples: [
     {
       id: "arrow-template-literals",

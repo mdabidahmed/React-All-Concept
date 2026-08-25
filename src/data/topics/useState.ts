@@ -1,13 +1,23 @@
 import type { Topic } from "../../types";
+import { UseStateDiagram } from "../../components/molecules/Diagrams/UseStateDiagram";
 
 export const useStateTopic: Topic = {
   id: "use-state",
   title: "useState",
   category: "Core Hooks",
-  shortExplanation:
-    "useState adds local, re-render-triggering state to a function component. Call it with an initial value, get back a [value, setter] pair, and call the setter to update the value and re-render.",
-  longExplanation:
-    "useState is the most basic React hook for giving a function component its own memory. Calling useState(initial) returns a tuple: the current value, and a setter function that updates it. Every call to the setter schedules a re-render with the new value. React preserves state between renders by associating each useState call with a stable 'slot' in that component instance, which is why hooks must be called in the same order on every render (never inside conditionals or loops). The initial value is only used on the very first render; on subsequent renders React ignores the argument and returns the stored value. If the next state depends on the previous state, prefer the updater-function form (setValue(prev => prev + 1)) instead of reading the outer variable, because state updates can be batched and the outer variable may be stale by the time the update actually runs. State is local to the component instance: two rendered instances of the same component each get their own independent state.",
+  shortExplanation: `\`useState\` adds local, re-render-triggering **state** to a function component.
+
+- Call it with an *initial value*: \`useState(initial)\`
+- It returns a **[value, setter]** pair
+- Calling the setter updates the value and triggers a ==re-render==`,
+  longExplanation: `\`useState\` is the most basic React hook for giving a function component its own memory. Calling \`useState(initial)\` returns a tuple: the current value, and a **setter function** that updates it. Every call to the setter schedules a ==re-render== with the new value.
+
+- React preserves state between renders by associating each \`useState\` call with a stable *slot* in that component instance
+- This is why hooks must be called **in the same order on every render** — never inside conditionals or loops
+- The *initial value* is only used on the very first render; afterward React ignores the argument and returns the stored value
+- If the next state depends on the previous state, prefer the **updater-function form** — \`setValue(prev => prev + 1)\` — instead of reading the outer variable, since updates can be *batched* and the outer variable may be stale
+- State is local to the component *instance*: two rendered instances of the same component each get their own independent state`,
+  diagram: UseStateDiagram,
   examples: [
     {
       id: "counter",

@@ -4,10 +4,19 @@ export const reactJsxAttributesTopic: Topic = {
   id: "react-jsx-attributes",
   title: "React JSX Attributes",
   category: "JSX",
-  shortExplanation:
-    "JSX attributes look like HTML but are actually JavaScript object properties, so most of them are camelCase (onClick, tabIndex, readOnly) rather than lowercase, and a couple are renamed outright (className instead of class, htmlFor instead of for) because class and for are reserved words in JavaScript. Boolean attributes take a real boolean value or a shorthand with no value, style takes an object instead of a CSS string, and {...props} spreads an object's keys onto an element as individual attributes.",
-  longExplanation:
-    "JSX attributes are not HTML attributes, even though they're written to look like them — under the hood, JSX compiles to React.createElement(type, propsObject, ...children), so every attribute you write becomes a key on a plain JavaScript object, and that object follows JavaScript's naming rules rather than HTML's. That's the root cause of most JSX-attribute surprises: DOM event handlers and many DOM properties are camelCase (onClick, onChange, tabIndex, readOnly, maxLength) instead of HTML's all-lowercase (onclick, tabindex, readonly, maxlength), because camelCase is idiomatic JavaScript. Two attributes are renamed entirely rather than just re-cased: class becomes className and for becomes htmlFor, because class and for are reserved words in JavaScript and can't be used as object keys in this position without conflicting with the language's own syntax. Boolean HTML attributes (disabled, checked, required) work as real booleans in JSX — disabled={true} and the bare shorthand disabled are equivalent, and disabled={false} correctly removes the attribute rather than rendering disabled=\"false\" the way plain HTML would if you naively stringified it. The style attribute is another divergence: instead of a semicolon-separated CSS string, JSX expects a JavaScript object whose keys are camelCase CSS properties (backgroundColor, not background-color) and whose numeric values are assumed to be pixels for most length properties. Finally, because props are just an object, the JSX spread syntax {...someObject} lets you forward an entire object's keys as individual attributes in one shot — useful for pass-through props on wrapper components, or for spreading a config object of DOM attributes onto a native element — and later explicit attributes still override earlier spread ones, following normal object-spread precedence.",
+  shortExplanation: `JSX attributes look like HTML but are actually **JavaScript object properties** — so most are camelCase (\`onClick\`, \`tabIndex\`, \`readOnly\`) rather than lowercase.
+
+- A couple are renamed outright: \`className\` instead of \`class\`, \`htmlFor\` instead of \`for\`, since both are reserved words in JavaScript
+- Boolean attributes take a real boolean value or a shorthand with no value at all
+- \`style\` takes an **object**, not a CSS string
+- \`{...props}\` ==spreads== an object's keys onto an element as individual attributes`,
+  longExplanation: `JSX attributes are not HTML attributes, even though they're written to look like them — under the hood JSX compiles to \`React.createElement(type, propsObject, ...children)\`, so every attribute becomes a key on a plain JavaScript object, following JS naming rules rather than HTML's.
+
+- DOM event handlers and many DOM properties are **camelCase** (\`onClick\`, \`tabIndex\`, \`readOnly\`, \`maxLength\`) instead of HTML's all-lowercase, because camelCase is idiomatic JavaScript
+- Two attributes are renamed entirely rather than just re-cased: \`class\` becomes \`className\` and \`for\` becomes \`htmlFor\`, since both are reserved words that can't be used as object keys here
+- Boolean HTML attributes (\`disabled\`, \`checked\`, \`required\`) work as real booleans: \`disabled={true}\` and the bare shorthand \`disabled\` are equivalent, and \`disabled={false}\` correctly *removes* the attribute rather than rendering \`disabled="false"\`
+- \`style\` expects a JavaScript **object** with camelCase CSS properties (\`backgroundColor\`, not \`background-color\`), whose numeric values are assumed to be pixels for most length properties
+- Because props are just an object, \`{...someObject}\` ==spreads== an entire object's keys as individual attributes in one shot — useful for pass-through props on wrapper components; later explicit attributes still override earlier spread ones, following normal object-spread precedence`,
   examples: [
     {
       id: "camel-case-attributes",
