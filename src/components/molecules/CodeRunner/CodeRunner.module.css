@@ -1,0 +1,74 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background: #1e1f29;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.toolbarLeft {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a3c4a;
+}
+
+.toolbarActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.editedTag {
+  font-size: 0.75rem;
+  color: #f5b93b;
+  font-weight: 600;
+}
+
+.editorPane {
+  max-height: 360px;
+  overflow: auto;
+  background: #011627;
+}
+
+.editor {
+  font-family: var(--mono) !important;
+  font-size: 0.83rem !important;
+  min-height: 100%;
+}
+
+.previewLabel {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.previewPane {
+  padding: var(--space-4);
+  background: var(--bg-elevated);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  min-height: 80px;
+}
+
+.error {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+}

@@ -1,0 +1,41 @@
+.viewer {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.tabsRow {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.heading {
+  font-size: 1.05rem;
+}
+
+.summary {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.noteSection {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+}
+
+.noteHeading {
+  font-size: 0.9rem;
+  color: var(--text-h);
+}

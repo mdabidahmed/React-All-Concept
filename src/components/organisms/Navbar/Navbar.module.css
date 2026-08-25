@@ -1,0 +1,37 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-h);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.logo {
+  color: var(--accent);
+  font-size: 1.3rem;
+}
+
+.repoLink {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.repoLink:hover {
+  color: var(--text-h);
+  border-color: var(--border-strong);
+}
