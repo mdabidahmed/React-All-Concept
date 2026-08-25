@@ -1,7 +1,6 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { ExampleTabs } from "../../molecules/ExampleTabs/ExampleTabs";
 import { NoteEditor } from "../../molecules/NoteEditor/NoteEditor";
-import { Spinner } from "../../atoms/Spinner/Spinner";
 import { useNotes } from "../../../hooks/useNotes";
 import type { Topic } from "../../../types";
 import styles from "./ExampleViewer.module.css";
@@ -16,12 +15,42 @@ interface ExampleViewerProps {
   topic: Topic;
 }
 
+function isTypingTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const tag = target.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable;
+}
+
 export function ExampleViewer({ topic }: ExampleViewerProps) {
   const [activeId, setActiveId] = useState(topic.examples[0]?.id ?? "");
   const { getNote, saveNote, hasNote } = useNotes();
 
-  const activeExample =
-    topic.examples.find((example) => example.id === activeId) ?? topic.examples[0];
+  const activeIndex = Math.max(
+    0,
+    topic.examples.findIndex((example) => example.id === activeId),
+  );
+  const activeExample = topic.examples[activeIndex] ?? topic.examples[0];
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (isTypingTarget(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
+
+      if (/^[1-5]$/.test(e.key)) {
+        const index = Number(e.key) - 1;
+        if (topic.examples[index]) setActiveId(topic.examples[index].id);
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        const next = topic.examples[activeIndex + 1];
+        if (next) setActiveId(next.id);
+      } else if (e.key === "ArrowLeft") {
+        const prev = topic.examples[activeIndex - 1];
+        if (prev) setActiveId(prev.id);
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [topic.examples, activeIndex]);
 
   if (!activeExample) return null;
 
@@ -37,18 +66,39 @@ export function ExampleViewer({ topic }: ExampleViewerProps) {
         />
       </div>
 
-      <p className={styles.summary}>{activeExample.summary}</p>
+      <div className={styles.exampleBody} key={activeExample.id}>
+        <div className={styles.summaryRow}>
+          <p className={styles.summary}>{activeExample.summary}</p>
+          <span className={styles.kbdHint}>
+            <kbd>1</kbd>-<kbd>5</kbd> or <kbd>←</kbd><kbd>→</kbd> to switch
+          </span>
+        </div>
 
-      <Suspense fallback={<div className={styles.loading}><Spinner label="Loading code runner" /></div>}>
-        <CodeRunner key={`${topic.id}:${activeExample.id}`} code={activeExample.code} />
-      </Suspense>
+        <Suspense
+          fallback={
+            <div className={styles.loading}>
+              <div className={styles.loadingToolbar}>
+                <span className={styles.loadingBar} style={{ width: 90 }} />
+              </div>
+              <div className={styles.loadingBody}>
+                <span className={styles.loadingBar} style={{ width: "70%" }} />
+                <span className={styles.loadingBar} style={{ width: "45%" }} />
+                <span className={styles.loadingBar} style={{ width: "85%" }} />
+                <span className={styles.loadingBar} style={{ width: "30%" }} />
+              </div>
+            </div>
+          }
+        >
+          <CodeRunner key={`${topic.id}:${activeExample.id}`} code={activeExample.code} />
+        </Suspense>
 
-      <div className={styles.noteSection}>
-        <h3 className={styles.noteHeading}>Your note</h3>
-        <NoteEditor
-          value={getNote(topic.id, activeExample.id)}
-          onSave={(text) => saveNote(topic.id, activeExample.id, text)}
-        />
+        <div className={styles.noteSection}>
+          <h3 className={styles.noteHeading}>Your note</h3>
+          <NoteEditor
+            value={getNote(topic.id, activeExample.id)}
+            onSave={(text) => saveNote(topic.id, activeExample.id, text)}
+          />
+        </div>
       </div>
     </section>
   );

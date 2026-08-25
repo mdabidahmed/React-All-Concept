@@ -3,36 +3,85 @@
   flex-direction: column;
   gap: var(--space-4);
   padding: var(--space-4);
-  width: 260px;
+  width: 272px;
   flex-shrink: 0;
   border-right: 1px solid var(--border);
   height: 100%;
   overflow-y: auto;
 }
 
+.progressBlock {
+  display: grid;
+  gap: 6px;
+}
+
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 0 2px;
+}
+
+.progressCount {
+  font-weight: 600;
+  color: var(--text-h);
+}
+
 .groups {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-2);
 }
 
 .group {
   display: grid;
-  gap: var(--space-1);
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px 8px 6px 4px;
+  border-radius: var(--radius-sm);
+}
+
+.groupHeader:hover {
+  background: var(--bg-subtle);
+}
+
+.chevron {
+  color: var(--text-muted);
+  transition: transform 180ms var(--ease-out);
+  flex-shrink: 0;
+}
+
+.chevron.chevronCollapsed {
+  transform: rotate(-90deg);
 }
 
 .groupTitle {
+  flex: 1;
+  text-align: left;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-muted);
-  padding: 0 10px;
-  margin-bottom: 2px;
+}
+
+.groupCount {
+  font-size: 0.68rem;
+  color: var(--text-muted);
 }
 
 .groupItems {
   display: grid;
   gap: 2px;
+  animation: fade-in-up 180ms var(--ease-out);
 }
 
 .empty {
@@ -41,11 +90,35 @@
   padding: 0 10px;
 }
 
+.backdrop {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    width: min(300px, 82vw);
+    background: var(--bg);
+    box-shadow: var(--shadow-md);
+    transform: translateX(-100%);
+    transition: transform 220ms var(--ease-out);
+    padding-top: calc(var(--space-4) + 56px);
+  }
+
+  .sidebar.mobileOpen {
+    transform: translateX(0);
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(10, 10, 14, 0.45);
+    animation: fade-in 150ms ease;
   }
 }

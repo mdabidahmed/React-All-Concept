@@ -20,7 +20,13 @@
 }
 
 @media (max-width: 900px) {
-  .body {
-    flex-direction: column;
+  .content {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: var(--space-3);
   }
 }

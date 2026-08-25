@@ -1,0 +1,33 @@
+.track {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  gap: 2px;
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: calc(var(--radius-md) - 3px);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, transform 150ms var(--ease-spring);
+}
+
+.option:hover {
+  color: var(--text-h);
+}
+
+.option.selected {
+  background: var(--bg-elevated);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+  transform: scale(1.05);
+}

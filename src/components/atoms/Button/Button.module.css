@@ -17,6 +17,10 @@
   opacity: 0.5;
 }
 
+.button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
 .md {
   padding: 8px 14px;
   font-size: 0.9rem;

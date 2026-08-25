@@ -1,10 +1,42 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: rgba(10, 10, 14, 0.6);
+  backdrop-filter: blur(2px);
+  animation: fade-in 150ms ease;
+}
+
+.container {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.container.fullscreen {
+  position: fixed;
+  z-index: 120;
+  top: 4vh;
+  left: 4vw;
+  right: 4vw;
+  bottom: 4vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-md);
+  animation: scale-in 180ms var(--ease-out);
+}
+
+.container.fullscreen .editorPane {
+  max-height: none;
+  flex: 1;
+}
+
 .toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: var(--space-2) var(--space-3);
   background: #1e1f29;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
 .toolbarLeft {
@@ -23,6 +55,17 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+}
+
+.toolbarIcon {
+  background: transparent;
+  border-color: #3a3c4a;
+  color: #9098ad;
+}
+
+.toolbarIcon:hover {
+  border-color: #565976;
+  color: #e5e7eb;
 }
 
 .editedTag {
@@ -58,8 +101,12 @@
 .previewPane {
   padding: var(--space-4);
   background: var(--bg-elevated);
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
   min-height: 80px;
+  overflow: auto;
+}
+
+.container.fullscreen .previewPane {
+  flex: 1;
 }
 
 .error {
