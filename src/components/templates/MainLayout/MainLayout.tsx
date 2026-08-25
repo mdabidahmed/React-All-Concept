@@ -27,14 +27,20 @@ export function MainLayout({ children }: MainLayoutProps) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setPaletteOpen((open) => !open);
+      } else if (e.key === "Escape" && mobileNavOpen) {
+        setMobileNavOpen(false);
+        document.getElementById("mobile-menu-trigger")?.focus();
       }
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [mobileNavOpen]);
 
   return (
     <div className={styles.shell}>
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
       <Navbar
         theme={theme}
         onThemeChange={setTheme}
@@ -43,7 +49,7 @@ export function MainLayout({ children }: MainLayoutProps) {
       />
       <div className={styles.body}>
         <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
-        <main id="main-content" className={styles.content}>
+        <main id="main-content" tabIndex={-1} className={styles.content}>
           {children}
         </main>
       </div>

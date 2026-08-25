@@ -39,11 +39,6 @@
   color: var(--accent);
   font-size: 1.3rem;
   display: inline-block;
-  transition: transform 400ms var(--ease-spring);
-}
-
-.brand:hover .logo {
-  transform: rotate(60deg);
 }
 
 .right {

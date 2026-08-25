@@ -13,6 +13,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
   const navigate = useNavigate();
   const { isComplete } = useProgress();
 
@@ -36,8 +37,15 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
     );
   }, [query]);
 
+  // Move focus into the palette when it opens, and back to whatever
+  // triggered it when it closes — standard modal focus management.
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (open) {
+      previouslyFocused.current = document.activeElement as HTMLElement | null;
+      inputRef.current?.focus();
+    } else {
+      previouslyFocused.current?.focus();
+    }
   }, [open]);
 
   function handleQueryChange(value: string) {
@@ -103,7 +111,13 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
           <kbd className={styles.escHint}>Esc</kbd>
         </div>
 
-        <div className={styles.results} role="listbox">
+        <p className="sr-only" role="status" aria-live="polite">
+          {results.length === 0
+            ? `No topics match "${query}"`
+            : `${results.length} topic${results.length === 1 ? "" : "s"} found`}
+        </p>
+
+        <div className={styles.results} role="listbox" aria-label="Topic results">
           {results.length === 0 && <p className={styles.empty}>No topics match "{query}".</p>}
           {results.map((topic, index) => (
             <button

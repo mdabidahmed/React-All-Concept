@@ -16,6 +16,7 @@ export function Navbar({ theme, onThemeChange, onOpenSearch, onToggleSidebar }: 
     <header className={styles.navbar}>
       <div className={styles.left}>
         <IconButton
+          id="mobile-menu-trigger"
           label="Toggle topics menu"
           className={styles.menuButton}
           onClick={onToggleSidebar}

@@ -41,11 +41,19 @@ export function ExplanationPanel({ topic }: ExplanationPanelProps) {
             size="sm"
             variant={complete ? "secondary" : "primary"}
             onClick={handleToggleComplete}
-            className={styles.completeButton}
+            aria-pressed={complete}
           >
             {complete ? (
               <>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  aria-hidden="true"
+                >
                   <path d="M20 6 9 17l-5-5" />
                 </svg>
                 Completed

@@ -20,7 +20,6 @@ export function HomePage() {
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
-        <span className={styles.eyebrow}>43 topics · {totalExamples} runnable examples</span>
         <h1 className={styles.heroTitle}>
           Learn <span className={styles.heroAccent}>React</span>, one concept at a time
         </h1>
@@ -75,15 +74,10 @@ export function HomePage() {
       </div>
 
       <div className={styles.grid}>
-        {filteredTopics.map((topic, index) => {
+        {filteredTopics.map((topic) => {
           const complete = isComplete(topic.id);
           return (
-            <Link
-              key={topic.id}
-              to={`/topics/${topic.id}`}
-              className={styles.card}
-              style={{ animationDelay: `${Math.min(index, 12) * 25}ms` }}
-            >
+            <Link key={topic.id} to={`/topics/${topic.id}`} className={styles.card}>
               {complete && (
                 <span className={styles.completeBadge} aria-label="Completed">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">

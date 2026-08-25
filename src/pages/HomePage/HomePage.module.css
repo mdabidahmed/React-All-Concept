@@ -6,19 +6,6 @@
 .hero {
   display: grid;
   gap: var(--space-3);
-  animation: fade-in-up 320ms var(--ease-out);
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-self: start;
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 600;
 }
 
 .heroTitle {
@@ -137,7 +124,6 @@
   text-decoration: none;
   color: inherit;
   transition: border-color 150ms ease, transform 150ms var(--ease-out), box-shadow 150ms ease;
-  animation: fade-in-up 300ms var(--ease-out) backwards;
 }
 
 .card:hover {

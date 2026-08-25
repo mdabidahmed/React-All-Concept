@@ -40,6 +40,7 @@ export function NoteEditor({ value, onSave }: NoteEditorProps) {
         <TextArea
           autoFocus
           value={draft}
+          aria-label="Note for this example"
           placeholder="Write a note for this example — a gotcha, a reminder, your own summary..."
           onChange={(e) => setDraft(e.target.value)}
         />
@@ -66,7 +67,9 @@ export function NoteEditor({ value, onSave }: NoteEditorProps) {
         <Button size="sm" variant="secondary" onClick={startEditing}>
           {value ? "Edit note" : "Add note"}
         </Button>
-        {justSaved && <span className={styles.savedTag}>Saved</span>}
+        <span role="status" aria-live="polite">
+          {justSaved && <span className={styles.savedTag}>Saved</span>}
+        </span>
       </div>
     </div>
   );
