@@ -1,22 +1,117 @@
-.wrapper {
+.card {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 20px;
+}
+
+.headerLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.headerLabel svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.headerStatus {
+  display: inline-flex;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.savedTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--success);
+  background: var(--success-bg);
+  border-radius: 999px;
+  padding: 2px 9px 2px 7px;
+  animation: scale-in 180ms var(--ease-spring);
+}
+
+/* Empty state — inviting, clickable dashed panel */
+.emptyState {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.emptyState:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.emptyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--bg-subtle);
+  color: var(--accent);
+}
+
+.emptyState:hover .emptyIcon {
+  background: var(--bg-elevated);
+}
+
+.emptyText {
+  font-size: 0.88rem;
+}
+
+.emptyText strong {
+  color: var(--text-h);
+  font-weight: 600;
+}
+
+/* Saved note — annotation-style block with an accent rail */
+.noteBlock {
+  display: grid;
+  gap: var(--space-3);
 }
 
 .noteText {
   white-space: pre-wrap;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
   color: var(--text);
   background: var(--bg-subtle);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-3);
-}
-
-.placeholder {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-style: italic;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--space-3) var(--space-4);
 }
 
 .actions {
@@ -25,8 +120,34 @@
   gap: var(--space-2);
 }
 
-.savedTag {
-  font-size: 0.78rem;
-  color: var(--success);
-  font-weight: 600;
+.actions svg {
+  flex-shrink: 0;
+}
+
+/* Editing */
+.editArea {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.textarea {
+  min-height: 96px;
+  resize: none;
+  overflow: hidden;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.editFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.charCount {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }

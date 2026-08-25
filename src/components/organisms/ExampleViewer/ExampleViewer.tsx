@@ -23,7 +23,7 @@ function isTypingTarget(target: EventTarget | null): boolean {
 
 export function ExampleViewer({ topic }: ExampleViewerProps) {
   const [activeId, setActiveId] = useState(topic.examples[0]?.id ?? "");
-  const { getNote, saveNote, hasNote } = useNotes();
+  const { getNote, saveNote, hasNote, getUpdatedAt } = useNotes();
 
   const activeIndex = Math.max(
     0,
@@ -92,13 +92,11 @@ export function ExampleViewer({ topic }: ExampleViewerProps) {
           <CodeRunner key={`${topic.id}:${activeExample.id}`} code={activeExample.code} />
         </Suspense>
 
-        <div className={styles.noteSection}>
-          <h3 className={styles.noteHeading}>Your note</h3>
-          <NoteEditor
-            value={getNote(topic.id, activeExample.id)}
-            onSave={(text) => saveNote(topic.id, activeExample.id, text)}
-          />
-        </div>
+        <NoteEditor
+          value={getNote(topic.id, activeExample.id)}
+          updatedAt={getUpdatedAt(topic.id, activeExample.id)}
+          onSave={(text) => saveNote(topic.id, activeExample.id, text)}
+        />
       </div>
     </section>
   );

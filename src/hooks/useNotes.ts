@@ -20,6 +20,11 @@ export function useNotes() {
     [notes],
   );
 
+  const getUpdatedAt = useCallback(
+    (topicId: string, exampleId: string) => notes[makeKey(topicId, exampleId)]?.updatedAt ?? null,
+    [notes],
+  );
+
   const saveNote = useCallback(
     (topicId: string, exampleId: string, text: string) => {
       const key = makeKey(topicId, exampleId);
@@ -42,5 +47,5 @@ export function useNotes() {
     [notes],
   );
 
-  return { getNote, saveNote, hasNote };
+  return { getNote, saveNote, hasNote, getUpdatedAt };
 }
