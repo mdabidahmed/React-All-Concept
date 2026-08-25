@@ -12,11 +12,15 @@ import {
   useRef as useRefHook,
 } from "react";
 import * as ReactNamespace from "react";
+import * as ReactDOMNamespace from "react-dom";
+import { createPortal } from "react-dom";
 import { Button } from "../../atoms/Button/Button";
 import styles from "./CodeRunner.module.css";
 
 const liveScope = {
   React: ReactNamespace,
+  ReactDOM: ReactDOMNamespace,
+  createPortal,
   useState: useStateHook,
   useEffect: useEffectHook,
   useContext: useContextHook,
