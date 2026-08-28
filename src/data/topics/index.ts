@@ -62,6 +62,20 @@ import { useMemoCallbackTopic } from "./useMemoCallback";
 // Composition
 import { customHooksTopic } from "./customHooks";
 
+// Advanced Patterns
+import { advancedHocPatternTopic } from "./advancedHocPattern";
+import { renderPropsPatternTopic } from "./renderPropsPattern";
+import { containerPresentationalPatternTopic } from "./containerPresentationalPattern";
+import { reactReconciliationTopic } from "./reactReconciliation";
+import { debounceThrottleTopic } from "./debounceThrottle";
+
+// Testing
+import { writeCleanCodeTopic } from "./writeCleanCode";
+import { whatIsTestingTopic } from "./whatIsTesting";
+import { testingJestTopic } from "./testingJest";
+import { testingCypressTopic } from "./testingCypress";
+import { testingMochaTopic } from "./testingMocha";
+
 export const topics: Topic[] = [
   reactIntroTopic,
   reactGetStartedTopic,
@@ -114,6 +128,18 @@ export const topics: Topic[] = [
   useMemoCallbackTopic,
 
   customHooksTopic,
+
+  advancedHocPatternTopic,
+  renderPropsPatternTopic,
+  containerPresentationalPatternTopic,
+  reactReconciliationTopic,
+  debounceThrottleTopic,
+
+  writeCleanCodeTopic,
+  whatIsTestingTopic,
+  testingJestTopic,
+  testingCypressTopic,
+  testingMochaTopic,
 ];
 
 export function getTopicById(id: string | undefined): Topic | undefined {

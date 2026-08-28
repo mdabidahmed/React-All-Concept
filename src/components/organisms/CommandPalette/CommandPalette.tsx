@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { topics } from "../../../data/topics";
+import { useNavigate, useParams } from "react-router-dom";
+import { getTopicsForSubject } from "../../../data/subjects";
 import { useProgress } from "../../../hooks/useProgress";
 import styles from "./CommandPalette.module.css";
 
@@ -10,6 +10,7 @@ interface CommandPaletteProps {
 }
 
 export function CommandPalette({ open, onClose }: CommandPaletteProps) {
+  const { subject } = useParams<{ subject: string }>();
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,6 +27,8 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
     }
   }
 
+  const topics = useMemo(() => getTopicsForSubject(subject), [subject]);
+
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return topics;
@@ -35,7 +38,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         topic.category.toLowerCase().includes(q) ||
         topic.shortExplanation.toLowerCase().includes(q),
     );
-  }, [query]);
+  }, [query, topics]);
 
   // Move focus into the palette when it opens, and back to whatever
   // triggered it when it closes — standard modal focus management.
@@ -54,7 +57,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   }
 
   function select(topicId: string) {
-    navigate(`/topics/${topicId}`);
+    navigate(`/${subject}/topics/${topicId}`);
     onClose();
   }
 

@@ -3,15 +3,16 @@ import type { Topic } from "../../../types";
 import styles from "./TopicNavItem.module.css";
 
 interface TopicNavItemProps {
+  subject: string | undefined;
   topic: Topic;
   completed?: boolean;
   onNavigate?: () => void;
 }
 
-export function TopicNavItem({ topic, completed, onNavigate }: TopicNavItemProps) {
+export function TopicNavItem({ subject, topic, completed, onNavigate }: TopicNavItemProps) {
   return (
     <NavLink
-      to={`/topics/${topic.id}`}
+      to={`/${subject}/topics/${topic.id}`}
       onClick={onNavigate}
       className={({ isActive }) => [styles.item, isActive ? styles.active : ""].join(" ")}
     >

@@ -1,7 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { AppRouter } from "./router/AppRouter";
 import { ToastProvider } from "./components/organisms/ToastProvider/ToastProvider";
-import { ProgressProvider } from "./components/organisms/ProgressProvider/ProgressProvider";
 import { QuizSessionProvider } from "./components/organisms/QuizSessionProvider/QuizSessionProvider";
 import { ConfirmProvider } from "./components/organisms/ConfirmProvider/ConfirmProvider";
 
@@ -15,11 +14,9 @@ function App() {
     <BrowserRouter basename={basename}>
       <ToastProvider>
         <ConfirmProvider>
-          <ProgressProvider>
-            <QuizSessionProvider>
-              <AppRouter />
-            </QuizSessionProvider>
-          </ProgressProvider>
+          <QuizSessionProvider>
+            <AppRouter />
+          </QuizSessionProvider>
         </ConfirmProvider>
       </ToastProvider>
     </BrowserRouter>

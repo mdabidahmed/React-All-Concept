@@ -24,21 +24,45 @@
   display: none;
 }
 
+.allSubjects {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.allSubjects:hover {
+  background: var(--bg-subtle);
+  color: var(--text-h);
+}
+
 .brand {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  min-width: 0;
   color: var(--text-h);
   text-decoration: none;
   font-weight: 700;
   font-size: 1.02rem;
-  white-space: nowrap;
 }
 
 .logo {
   color: var(--accent);
   font-size: 1.3rem;
   display: inline-block;
+  flex-shrink: 0;
+}
+
+.brandText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sidebarToggle {
@@ -155,13 +179,13 @@
   }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 901px) {
   .searchTrigger {
     min-width: 260px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .brandText {
     display: none;
   }

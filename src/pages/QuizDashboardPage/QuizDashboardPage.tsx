@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { quizCategoryMeta } from "../../data/quiz/categories";
-import { getQuizQuestions } from "../../data/quiz";
+import { useMemo, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getQuizCategoriesForSubject, getQuizQuestionsForSubject } from "../../data/quizSubjects";
+import { getSubjectById } from "../../data/subjects";
 import { useQuizHistory, type QuizPeriod } from "../../hooks/useQuizHistory";
 import { bucketizeAttempts } from "../../utils/quizStats";
 import { Badge } from "../../components/atoms/Badge/Badge";
@@ -18,6 +18,9 @@ const PERIODS: { id: QuizPeriod; label: string }[] = [
 const USER_NAME = "Md Abid Ahmed";
 
 export function QuizDashboardPage() {
+  const { subject } = useParams<{ subject: string }>();
+  const subjectMeta = getSubjectById(subject);
+  const quizCategories = useMemo(() => getQuizCategoriesForSubject(subject), [subject]);
   const [period, setPeriod] = useState<QuizPeriod>("day");
   const { attempts, bestByCategory, statsFor, streak, overall } = useQuizHistory();
 
@@ -43,7 +46,7 @@ export function QuizDashboardPage() {
           </div>
         </div>
         <p className={styles.subtitle}>
-          Test your React knowledge across {quizCategoryMeta.length} categories. Score{" "}
+          Test your {subjectMeta?.name ?? "subject"} knowledge across {quizCategories.length} categories. Score{" "}
           {QUIZ_PASS_PERCENT}% or higher to pass — track your streak and keep improving.
         </p>
       </header>
@@ -121,8 +124,8 @@ export function QuizDashboardPage() {
       </div>
 
       <div className={styles.categoryGrid}>
-        {quizCategoryMeta.map((category) => {
-          const questionCount = getQuizQuestions(category.id).length;
+        {quizCategories.map((category) => {
+          const questionCount = getQuizQuestionsForSubject(subject, category.id).length;
           const best = bestByCategory.get(category.id);
           const minutes = Math.max(1, Math.round((questionCount * QUIZ_SECONDS_PER_QUESTION) / 60));
           return (
@@ -139,7 +142,7 @@ export function QuizDashboardPage() {
                 <span>{questionCount} questions</span>
                 <span>~{minutes} min</span>
               </div>
-              <Link to={`/quiz/${category.id}`} className={styles.startButton}>
+              <Link to={`/${subject}/quiz/${category.id}`} className={styles.startButton}>
                 {best ? "Retake quiz" : "Start quiz"}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M9 18l6-6-6-6" />

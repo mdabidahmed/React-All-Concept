@@ -1,8 +1,7 @@
 import { useCallback, useMemo } from "react";
+import { useParams } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 import type { QuizAttempt } from "../types/quiz";
-
-const STORAGE_KEY = "rac:quiz-attempts";
 
 export type QuizPeriod = "day" | "week" | "month";
 
@@ -19,7 +18,9 @@ function withinMs(iso: string, ms: number): boolean {
 
 /** Local, persisted history of completed quiz attempts, plus derived stats for the dashboard. */
 export function useQuizHistory() {
-  const [attempts, setAttempts] = useLocalStorage<QuizAttempt[]>(STORAGE_KEY, []);
+  const { subject } = useParams<{ subject: string }>();
+  const storageKey = `rac:quiz-attempts:${subject ?? "unknown"}`;
+  const [attempts, setAttempts] = useLocalStorage<QuizAttempt[]>(storageKey, []);
 
   const recordAttempt = useCallback(
     (attempt: Omit<QuizAttempt, "id">): QuizAttempt => {

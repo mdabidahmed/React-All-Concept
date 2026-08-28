@@ -1,30 +1,35 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { topics, categories } from "../../data/topics";
+import { Link, useParams } from "react-router-dom";
+import { getTopicsForSubject, getCategoriesForSubject, getSubjectById } from "../../data/subjects";
 import { Badge } from "../../components/atoms/Badge/Badge";
 import { ProgressBar } from "../../components/atoms/ProgressBar/ProgressBar";
 import { useProgress } from "../../hooks/useProgress";
 import styles from "./HomePage.module.css";
 
-const totalExamples = topics.reduce((sum, topic) => sum + topic.examples.length, 0);
-
 export function HomePage() {
+  const { subject } = useParams<{ subject: string }>();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const { isComplete, completedCount, total, percent } = useProgress();
 
+  const subjectMeta = getSubjectById(subject);
+  const topics = useMemo(() => getTopicsForSubject(subject), [subject]);
+  const categories = useMemo(() => getCategoriesForSubject(subject), [subject]);
+  const totalExamples = useMemo(() => topics.reduce((sum, topic) => sum + topic.examples.length, 0), [topics]);
+
   const filteredTopics = useMemo(
     () => (activeCategory ? topics.filter((t) => t.category === activeCategory) : topics),
-    [activeCategory],
+    [activeCategory, topics],
   );
 
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
         <h1 className={styles.heroTitle}>
-          Learn <span className={styles.heroAccent}>React</span>, one concept at a time
+          Learn <span className={styles.heroAccent}>{subjectMeta?.name ?? "this subject"}</span>, one concept
+          at a time
         </h1>
         <p className={styles.heroSubtitle}>
-          Pick a topic to see a short or long explanation, five runnable examples you can edit
+          Pick a topic to see a short or long explanation, runnable examples you can edit
           and re-run, and space to jot down your own notes — saved locally in your browser.
         </p>
 
@@ -77,7 +82,7 @@ export function HomePage() {
         {filteredTopics.map((topic) => {
           const complete = isComplete(topic.id);
           return (
-            <Link key={topic.id} to={`/topics/${topic.id}`} className={styles.card}>
+            <Link key={topic.id} to={`/${subject}/topics/${topic.id}`} className={styles.card}>
               {complete && (
                 <span className={styles.completeBadge} aria-label="Completed">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">

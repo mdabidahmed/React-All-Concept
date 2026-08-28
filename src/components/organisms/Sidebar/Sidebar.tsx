@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { topics, categories } from "../../../data/topics";
+import { useParams } from "react-router-dom";
+import { getTopicsForSubject, getCategoriesForSubject } from "../../../data/subjects";
 import { SearchBox } from "../../molecules/SearchBox/SearchBox";
 import { TopicNavItem } from "../../molecules/TopicNavItem/TopicNavItem";
 import { useProgress } from "../../../hooks/useProgress";
@@ -14,6 +15,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ mobileOpen, onCloseMobile, collapsed }: SidebarProps) {
+  const { subject } = useParams<{ subject: string }>();
   const [query, setQuery] = useState("");
   const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(() => new Set());
   const { isComplete } = useProgress();
@@ -23,6 +25,9 @@ export function Sidebar({ mobileOpen, onCloseMobile, collapsed }: SidebarProps) 
   // this — inert removes the whole subtree from the tab order until open.
   const isOffscreen = isMobileViewport && !mobileOpen;
   const isHidden = isOffscreen || (collapsed && !isMobileViewport);
+
+  const topics = useMemo(() => getTopicsForSubject(subject), [subject]);
+  const categories = useMemo(() => getCategoriesForSubject(subject), [subject]);
 
   const grouped = useMemo(() => {
     const lowerQuery = query.trim().toLowerCase();
@@ -36,7 +41,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, collapsed }: SidebarProps) 
         items: filtered.filter((t) => t.category === category),
       }))
       .filter((group) => group.items.length > 0);
-  }, [query]);
+  }, [query, topics, categories]);
 
   function toggleCategory(category: string) {
     setCollapsedCategories((prev) => {
@@ -98,6 +103,7 @@ export function Sidebar({ mobileOpen, onCloseMobile, collapsed }: SidebarProps) 
                     {group.items.map((topic) => (
                       <TopicNavItem
                         key={topic.id}
+                        subject={subject}
                         topic={topic}
                         completed={isComplete(topic.id)}
                         onNavigate={onCloseMobile}

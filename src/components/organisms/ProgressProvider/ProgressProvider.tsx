@@ -1,12 +1,16 @@
 import { useCallback, useMemo, type ReactNode } from "react";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { ProgressContext } from "../../../context/ProgressContext";
-import { topics } from "../../../data/topics";
+import { getTopicsForSubject } from "../../../data/subjects";
 
-const STORAGE_KEY = "rac:completed-topics";
+interface ProgressProviderProps {
+  subject: string | undefined;
+  children: ReactNode;
+}
 
-export function ProgressProvider({ children }: { children: ReactNode }) {
-  const [completed, setCompleted] = useLocalStorage<string[]>(STORAGE_KEY, []);
+export function ProgressProvider({ subject, children }: ProgressProviderProps) {
+  const storageKey = `rac:completed-topics:${subject ?? "unknown"}`;
+  const [completed, setCompleted] = useLocalStorage<string[]>(storageKey, []);
   const completedSet = useMemo(() => new Set(completed), [completed]);
 
   const isComplete = useCallback((topicId: string) => completedSet.has(topicId), [completedSet]);
@@ -20,7 +24,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [setCompleted],
   );
 
-  const total = topics.length;
+  const total = getTopicsForSubject(subject).length;
   const completedCount = completedSet.size;
   const percent = total === 0 ? 0 : Math.round((completedCount / total) * 100);
 

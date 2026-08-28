@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { quizCategoryMeta } from "../../data/quiz/categories";
-import { getQuizQuestions } from "../../data/quiz";
+import { getQuizCategoriesForSubject, getQuizQuestionsForSubject } from "../../data/quizSubjects";
 import { quizMotivationalQuotes, quizEncouragementQuotes, pickRandomQuote } from "../../data/quiz/quotes";
 import { useConfirm } from "../../hooks/useConfirm";
 import { useQuizHistory } from "../../hooks/useQuizHistory";
@@ -38,9 +37,9 @@ interface QuizResultState {
 }
 
 export function QuizPlayPage() {
-  const { categoryId } = useParams<{ categoryId: string }>();
-  const category = quizCategoryMeta.find((c) => c.id === categoryId);
-  const questions = category ? getQuizQuestions(category.id) : [];
+  const { subject, categoryId } = useParams<{ subject: string; categoryId: string }>();
+  const category = getQuizCategoriesForSubject(subject).find((c) => c.id === categoryId);
+  const questions = category ? getQuizQuestionsForSubject(subject, category.id) : [];
 
   const { bestByCategory, recordAttempt } = useQuizHistory();
   const { registerActiveTest } = useQuizSession();
@@ -217,7 +216,7 @@ export function QuizPlayPage() {
             <Button variant="primary" onClick={startQuiz}>
               Start quiz
             </Button>
-            <Link to="/quiz" className={styles.backLink}>
+            <Link to={`/${subject}/quiz`} className={styles.backLink}>
               Back to dashboard
             </Link>
           </div>
@@ -369,7 +368,7 @@ export function QuizPlayPage() {
               <Button variant="primary" onClick={startQuiz}>
                 Retry quiz
               </Button>
-              <Link to="/quiz" className={styles.backLink}>
+              <Link to={`/${subject}/quiz`} className={styles.backLink}>
                 Back to dashboard
               </Link>
             </div>

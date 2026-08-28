@@ -1,17 +1,15 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import { Navbar } from "../../organisms/Navbar/Navbar";
 import { Sidebar } from "../../organisms/Sidebar/Sidebar";
 import { CommandPalette } from "../../organisms/CommandPalette/CommandPalette";
+import { ProgressProvider } from "../../organisms/ProgressProvider/ProgressProvider";
 import { useTheme } from "../../../hooks/useTheme";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import styles from "./MainLayout.module.css";
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
-
-export function MainLayout({ children }: MainLayoutProps) {
+export function MainLayout() {
+  const { subject } = useParams<{ subject: string }>();
   const { theme, setTheme } = useTheme();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -39,29 +37,31 @@ export function MainLayout({ children }: MainLayoutProps) {
   }, [mobileNavOpen]);
 
   return (
-    <div className={styles.shell}>
-      <a href="#main-content" className="skip-link">
-        Skip to content
-      </a>
-      <Navbar
-        theme={theme}
-        onThemeChange={setTheme}
-        onOpenSearch={() => setPaletteOpen(true)}
-        onToggleSidebar={() => setMobileNavOpen((open) => !open)}
-        sidebarCollapsed={sidebarCollapsed}
-        onToggleSidebarCollapse={() => setSidebarCollapsed((collapsed) => !collapsed)}
-      />
-      <div className={styles.body}>
-        <Sidebar
-          mobileOpen={mobileNavOpen}
-          onCloseMobile={() => setMobileNavOpen(false)}
-          collapsed={sidebarCollapsed}
+    <ProgressProvider subject={subject}>
+      <div className={styles.shell}>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+        <Navbar
+          theme={theme}
+          onThemeChange={setTheme}
+          onOpenSearch={() => setPaletteOpen(true)}
+          onToggleSidebar={() => setMobileNavOpen((open) => !open)}
+          sidebarCollapsed={sidebarCollapsed}
+          onToggleSidebarCollapse={() => setSidebarCollapsed((collapsed) => !collapsed)}
         />
-        <main id="main-content" tabIndex={-1} className={styles.content}>
-          {children}
-        </main>
+        <div className={styles.body}>
+          <Sidebar
+            mobileOpen={mobileNavOpen}
+            onCloseMobile={() => setMobileNavOpen(false)}
+            collapsed={sidebarCollapsed}
+          />
+          <main id="main-content" tabIndex={-1} className={styles.content}>
+            <Outlet />
+          </main>
+        </div>
+        <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       </div>
-      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
-    </div>
+    </ProgressProvider>
   );
 }

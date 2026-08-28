@@ -1,10 +1,11 @@
 import type { MouseEvent } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { ThemeToggle } from "../../molecules/ThemeToggle/ThemeToggle";
 import { ProgressMenu } from "../../molecules/ProgressMenu/ProgressMenu";
 import { IconButton } from "../../atoms/IconButton/IconButton";
 import { useConfirm } from "../../../hooks/useConfirm";
 import { useQuizSession } from "../../../hooks/useQuizSession";
+import { getSubjectById } from "../../../data/subjects";
 import type { Theme } from "../../../hooks/useTheme";
 import styles from "./Navbar.module.css";
 
@@ -25,6 +26,8 @@ export function Navbar({
   sidebarCollapsed,
   onToggleSidebarCollapse,
 }: NavbarProps) {
+  const { subject } = useParams<{ subject: string }>();
+  const subjectMeta = getSubjectById(subject);
   const navigate = useNavigate();
   const { inProgress, endActiveTest } = useQuizSession();
   const confirm = useConfirm();
@@ -39,7 +42,7 @@ export function Navbar({
     });
     if (!confirmed) return;
     endActiveTest();
-    navigate("/quiz");
+    navigate(`/${subject}/quiz`);
   }
 
   return (
@@ -55,9 +58,17 @@ export function Navbar({
             <path d="M3 6h18M3 12h18M3 18h18" />
           </svg>
         </IconButton>
-        <Link to="/" className={styles.brand}>
+        <Link to="/" className={styles.allSubjects} aria-label="All subjects">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1.5" />
+            <rect x="14" y="3" width="7" height="7" rx="1.5" />
+            <rect x="3" y="14" width="7" height="7" rx="1.5" />
+            <rect x="14" y="14" width="7" height="7" rx="1.5" />
+          </svg>
+        </Link>
+        <Link to={`/${subject}`} className={styles.brand}>
           <span className={styles.logo}>⚛</span>
-          <span className={styles.brandText}>React All Concepts</span>
+          <span className={styles.brandText}>{subjectMeta?.name ?? "Learn"} Concepts</span>
         </Link>
         <IconButton
           label={sidebarCollapsed ? "Expand topics sidebar" : "Collapse topics sidebar"}
@@ -91,7 +102,7 @@ export function Navbar({
           <kbd className={styles.kbd}>⌘K</kbd>
         </button>
         <NavLink
-          to="/quiz"
+          to={`/${subject}/quiz`}
           onClick={handleQuizNavClick}
           className={({ isActive }) =>
             [styles.quizLink, isActive ? styles.quizLinkActive : ""].join(" ")

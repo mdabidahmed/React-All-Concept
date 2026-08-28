@@ -46,4 +46,14 @@ export const quizCategoryMeta: QuizCategoryMeta[] = [
     title: "Composition",
     description: "Children, render props, and composing components together.",
   },
+  {
+    id: "advanced-patterns",
+    title: "Advanced Patterns",
+    description: "HOCs, render props, container/presentational, reconciliation, debounce & throttle.",
+  },
+  {
+    id: "testing",
+    title: "Testing",
+    description: "Clean code, testing fundamentals, Jest, Cypress, and Mocha.",
+  },
 ];
